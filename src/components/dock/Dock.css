@@ -44,6 +44,8 @@
     0 1px 2px 0 rgba(0, 0, 0, 0.05);
   cursor: pointer;
   outline: none;
+  transition:
+    border-color 0.15s ease;
 }
 
 .dock-item:focus-visible {
@@ -68,20 +70,36 @@
 .dock-item-brand-github:focus-visible .dock-icon {
   color: #7c3aed;
 }
+.dock-item-brand-github:hover,
+.dock-item-brand-github:focus-visible {
+  border-color: #7c3aed;
+}
 
 .dock-item-brand-linkedin:hover .dock-icon,
 .dock-item-brand-linkedin:focus-visible .dock-icon {
   color: #0a66c2;
+}
+.dock-item-brand-linkedin:hover,
+.dock-item-brand-linkedin:focus-visible {
+  border-color: #0a66c2;
 }
 
 .dock-item-brand-x:hover .dock-icon,
 .dock-item-brand-x:focus-visible .dock-icon {
   color: #000000;
 }
+.dock-item-brand-x:hover,
+.dock-item-brand-x:focus-visible {
+  border-color: #000000;
+}
 
 .dock-item-brand-mail:hover .dock-icon,
 .dock-item-brand-mail:focus-visible .dock-icon {
   color: #ea4335;
+}
+.dock-item-brand-mail:hover,
+.dock-item-brand-mail:focus-visible {
+  border-color: #ea4335;
 }
 
 .dock-label {
