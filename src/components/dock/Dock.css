@@ -1,0 +1,103 @@
+.dock-outer {
+  position: relative;
+  margin: 0 0.5rem;
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  overflow: visible;
+}
+
+.dock-panel {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+  gap: 1rem;
+  border-radius: 1rem;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  padding: 0 0.5rem 0.5rem;
+  overflow: visible;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.dock-panel--align-end {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.dock-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  outline: none;
+}
+
+.dock-item:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 2px;
+}
+
+.dock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #171717;
+  transition: color 0.15s ease;
+}
+
+.dock-icon svg {
+  display: block;
+}
+
+/* Brand colors on item hover / keyboard focus */
+.dock-item-brand-github:hover .dock-icon,
+.dock-item-brand-github:focus-visible .dock-icon {
+  color: #7c3aed;
+}
+
+.dock-item-brand-linkedin:hover .dock-icon,
+.dock-item-brand-linkedin:focus-visible .dock-icon {
+  color: #0a66c2;
+}
+
+.dock-item-brand-x:hover .dock-icon,
+.dock-item-brand-x:focus-visible .dock-icon {
+  color: #000000;
+}
+
+.dock-item-brand-mail:hover .dock-icon,
+.dock-item-brand-mail:focus-visible .dock-icon {
+  color: #ea4335;
+}
+
+.dock-label {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  width: fit-content;
+  white-space: pre;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  color: #171717;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
