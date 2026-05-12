@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { publicAsset } from "@/lib/public-asset";
+
 import { HomeSocialNav } from "./home-social-nav";
 
 export function HomeHeader() {
@@ -8,7 +10,7 @@ export function HomeHeader() {
       <div className="flex min-w-0 flex-1 flex-row items-start gap-7">
         <div className="relative size-[61px] shrink-0 overflow-hidden rounded-full border border-border bg-muted shadow-sm sm:size-[82px] md:size-[102px]">
           <Image
-            src="/home/portfolio.png"
+            src={publicAsset("/home/portfolio.png")}
             alt="Sandeep Kumar"
             fill
             className="object-cover"

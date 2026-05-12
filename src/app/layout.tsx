@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 
 import { OptionalSiteNav } from "@/components/optional-site-nav";
+import { publicAsset } from "@/lib/public-asset";
 
 import "./globals.css";
 
@@ -23,9 +24,9 @@ export const metadata: Metadata = {
   },
   description: "Portfolio and notes — sandeepkumar.dev",
   icons: {
-    icon: [{ url: "/sk.svg", type: "image/svg+xml" }],
-    shortcut: "/sk.svg",
-    apple: "/sk.svg",
+    icon: [{ url: publicAsset("/sk.svg"), type: "image/svg+xml" }],
+    shortcut: publicAsset("/sk.svg"),
+    apple: publicAsset("/sk.svg"),
   },
 };
 
