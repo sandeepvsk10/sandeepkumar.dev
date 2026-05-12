@@ -6,56 +6,82 @@ interface PortfolioTile extends MasonryItem {
   title: string;
   bg: string;
   borderColor: string;
+  lang?: string;
 }
 
 const portfolioItems: PortfolioTile[] = [
   {
     id: "data-engineering",
     title: "Data Engineering",
-    bg: "bg-blue-950/40",
-    borderColor: "border-blue-400/50",
+    bg: "bg-blue-100",
+    borderColor: "border-blue-500/80",
     url: "#",
     height: 600,
   },
   {
     id: "graph-databases",
     title: "Graph Databases",
-    bg: "bg-emerald-950/40",
-    borderColor: "border-emerald-400/50",
+    bg: "bg-emerald-100",
+    borderColor: "border-emerald-500/80",
     url: "/neo4j",
     height: 500,
   },
   {
     id: "ai-apps",
     title: "AI Applications",
-    bg: "bg-violet-950/40",
-    borderColor: "border-violet-400/50",
+    bg: "bg-violet-100",
+    borderColor: "border-violet-500/80",
     url: "#",
     height: 700,
   },
   {
     id: "open-source",
     title: "Open Source",
-    bg: "bg-amber-950/40",
-    borderColor: "border-amber-400/50",
+    bg: "bg-amber-100",
+    borderColor: "border-amber-500/80",
     url: "/open-source",
     height: 550,
   },
   {
     id: "python",
-    title: "Python",
-    bg: "bg-rose-950/40",
-    borderColor: "border-rose-400/50",
+    title: "Projects",
+    bg: "bg-rose-100",
+    borderColor: "border-rose-500/80",
     url: "/python",
     height: 650,
   },
   {
     id: "blog",
     title: "Blog",
-    bg: "bg-orange-950/40",
-    borderColor: "border-orange-400/50",
+    bg: "bg-orange-100",
+    borderColor: "border-orange-500/80",
     url: "#",
     height: 550,
+  },
+  {
+    id: "dev-setup",
+    title: "Dev Setup",
+    bg: "bg-indigo-100",
+    borderColor: "border-indigo-500/80",
+    url: "/dev-setup",
+    height: 480,
+  },
+  {
+    id: "books",
+    title: "Books",
+    bg: "bg-cyan-100",
+    borderColor: "border-cyan-500/80",
+    url: "#",
+    height: 520,
+  },
+  {
+    id: "thamizh",
+    title: "தமிழ்",
+    lang: "ta",
+    bg: "bg-teal-100",
+    borderColor: "border-teal-500/80",
+    url: "/thamizh",
+    height: 540,
   },
 ];
 
@@ -77,7 +103,10 @@ export function HomePageMasonary() {
           blurToFocus={true}
           renderItem={(item) => (
             <div className={`flex h-full items-end rounded-[10px] border-[3px] ${item.borderColor} bg-white p-8`}>
-              <h3 className="text-3xl font-regular tracking-tight text-foreground sm:text-4xl">
+              <h3
+                className="text-3xl font-normal tracking-tight text-zinc-600 sm:text-4xl"
+                lang={item.lang}
+              >
                 {item.title}
               </h3>
             </div>

@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     template: "%s · Sandeep Kumar",
   },
   description: "Portfolio and notes — sandeepkumar.dev",
+  icons: {
+    icon: [{ url: "/sk.svg", type: "image/svg+xml" }],
+    shortcut: "/sk.svg",
+    apple: "/sk.svg",
+  },
 };
 
 export default function RootLayout({
