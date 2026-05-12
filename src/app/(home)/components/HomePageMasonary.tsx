@@ -6,6 +6,7 @@ interface PortfolioTile extends MasonryItem {
   title: string;
   bg: string;
   borderColor: string;
+  lang?: string;
 }
 
 const portfolioItems: PortfolioTile[] = [
@@ -43,7 +44,7 @@ const portfolioItems: PortfolioTile[] = [
   },
   {
     id: "python",
-    title: "Python",
+    title: "Projects",
     bg: "bg-rose-100",
     borderColor: "border-rose-500/80",
     url: "/python",
@@ -56,6 +57,31 @@ const portfolioItems: PortfolioTile[] = [
     borderColor: "border-orange-500/80",
     url: "#",
     height: 550,
+  },
+  {
+    id: "dev-setup",
+    title: "Dev Setup",
+    bg: "bg-indigo-100",
+    borderColor: "border-indigo-500/80",
+    url: "/dev-setup",
+    height: 480,
+  },
+  {
+    id: "books",
+    title: "Books",
+    bg: "bg-cyan-100",
+    borderColor: "border-cyan-500/80",
+    url: "#",
+    height: 520,
+  },
+  {
+    id: "thamizh",
+    title: "தமிழ்",
+    lang: "ta",
+    bg: "bg-teal-100",
+    borderColor: "border-teal-500/80",
+    url: "/thamizh",
+    height: 540,
   },
 ];
 
@@ -77,7 +103,10 @@ export function HomePageMasonary() {
           blurToFocus={true}
           renderItem={(item) => (
             <div className={`flex h-full items-end rounded-[10px] border-[3px] ${item.borderColor} bg-white p-8`}>
-              <h3 className="text-3xl font-normal tracking-tight text-zinc-600 sm:text-4xl">
+              <h3
+                className="text-3xl font-normal tracking-tight text-zinc-600 sm:text-4xl"
+                lang={item.lang}
+              >
                 {item.title}
               </h3>
             </div>
