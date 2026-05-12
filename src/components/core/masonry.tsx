@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 
 import "./masonry.css";
@@ -97,6 +98,8 @@ export function Masonry<T extends MasonryItem>({
   hoverScale = 0.95,
   blurToFocus = true,
 }: MasonryProps<T>) {
+  const router = useRouter();
+
   const columns = useMedia(
     [
       "(min-width:1000px)",
@@ -237,7 +240,13 @@ export function Masonry<T extends MasonryItem>({
           data-key={item.id}
           className="masonry-item-wrapper"
           onClick={() => {
-            if (item.url) window.open(item.url, "_blank", "noopener");
+            const url = item.url;
+            if (!url || url === "#") return;
+            if (/^https?:\/\//i.test(url)) {
+              window.open(url, "_blank", "noopener");
+            } else {
+              router.push(url);
+            }
           }}
           onMouseEnter={() => handleMouseEnter(item)}
           onMouseLeave={() => handleMouseLeave(item)}
