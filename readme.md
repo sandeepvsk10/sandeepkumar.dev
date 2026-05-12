@@ -2,7 +2,7 @@ Hello, this is **Sandeep!**
 
 Thanks for visiting my github and portfolio!
 
-**serving at:** [sandeepkumar.dev](https://sandeepkumar.dev)
+**serving at:** [sandeepkumar.dev](https://sandeepvsk10.github.io/sandeepkumar.dev)
 
 <img src="public/readme/car-with-computer.jpg" alt="hello" width="420" />
 
