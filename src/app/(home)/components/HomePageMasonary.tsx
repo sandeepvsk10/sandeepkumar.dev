@@ -1,11 +1,15 @@
 "use client";
 
 import { Masonry, MasonryItem } from "@/components/core/masonry";
+import {
+  PortfolioDotMatrix,
+  type DotMatrixVariant,
+} from "@/components/ui/portfolio-dot-matrix";
 
 interface PortfolioTile extends MasonryItem {
   title: string;
   bg: string;
-  borderColor: string;
+  loader: DotMatrixVariant;
   lang?: string;
 }
 
@@ -13,64 +17,64 @@ const portfolioItems: PortfolioTile[] = [
   {
     id: "data-engineering",
     title: "Data Engineering",
-    bg: "bg-blue-100",
-    borderColor: "border-blue-500/80",
+    bg: "bg-blue-200",
+    loader: "spiral",
     url: "#",
     height: 600,
   },
   {
     id: "graph-databases",
     title: "Graph Databases",
-    bg: "bg-emerald-100",
-    borderColor: "border-emerald-500/80",
+    bg: "bg-emerald-200",
+    loader: "outer-ring",
     url: "/neo4j",
     height: 500,
   },
   {
     id: "ai-apps",
     title: "AI Applications",
-    bg: "bg-violet-100",
-    borderColor: "border-violet-500/80",
+    bg: "bg-violet-200",
+    loader: "center-ripple",
     url: "#",
     height: 700,
   },
   {
     id: "open-source",
     title: "Open Source",
-    bg: "bg-amber-100",
-    borderColor: "border-amber-500/80",
+    bg: "bg-amber-200",
+    loader: "ripple-echo",
     url: "/open-source",
     height: 550,
   },
   {
     id: "python",
     title: "Projects",
-    bg: "bg-rose-100",
-    borderColor: "border-rose-500/80",
+    bg: "bg-rose-200",
+    loader: "path-trbl",
     url: "/python",
     height: 650,
   },
   {
     id: "blog",
     title: "Blog",
-    bg: "bg-orange-100",
-    borderColor: "border-orange-500/80",
+    bg: "bg-orange-200",
+    loader: "path-row",
     url: "#",
     height: 550,
   },
   {
     id: "dev-setup",
     title: "Dev Setup",
-    bg: "bg-indigo-100",
-    borderColor: "border-indigo-500/80",
+    bg: "bg-indigo-200",
+    loader: "diagonal-snake",
     url: "/dev-setup",
     height: 480,
   },
   {
     id: "books",
     title: "Books",
-    bg: "bg-cyan-100",
-    borderColor: "border-cyan-500/80",
+    bg: "bg-cyan-200",
+    loader: "ripple",
     url: "#",
     height: 520,
   },
@@ -78,8 +82,8 @@ const portfolioItems: PortfolioTile[] = [
     id: "thamizh",
     title: "தமிழ்",
     lang: "ta",
-    bg: "bg-teal-100",
-    borderColor: "border-teal-500/80",
+    bg: "bg-teal-200",
+    loader: "spiral",
     url: "/thamizh",
     height: 540,
   },
@@ -102,13 +106,31 @@ export function HomePageMasonary() {
           hoverScale={0.98}
           blurToFocus={true}
           renderItem={(item) => (
-            <div className={`flex h-full items-end rounded-[10px] border-[3px] ${item.borderColor} bg-white p-8`}>
-              <h3
-                className="text-3xl font-normal tracking-tight text-zinc-600 sm:text-4xl"
-                lang={item.lang}
-              >
-                {item.title}
-              </h3>
+            <div
+              className="group relative flex h-full flex-col gap-5 rounded-3xl p-8 shadow-sm ring-1 ring-black/5"
+            >
+              <div
+                aria-hidden
+                className={`absolute inset-0 rounded-3xl ${item.bg} opacity-80 transition-opacity group-hover:opacity-100`}
+              />
+              <div className="relative z-10 flex flex-col gap-5">
+                <span aria-hidden className="inline-flex shrink-0">
+                  <PortfolioDotMatrix
+                    variant={item.loader}
+                    size={26}
+                    dotSize={3}
+                    color="#000000"
+                    speed={0.65}
+                    animated
+                  />
+                </span>
+                <h3
+                  className="text-lg font-normal tracking-tight text-zinc-800 sm:text-xl"
+                  lang={item.lang}
+                >
+                  {item.title}
+                </h3>
+              </div>
             </div>
           )}
         />
