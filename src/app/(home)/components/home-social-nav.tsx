@@ -14,11 +14,11 @@ function SocialNavLink({ label, href }: { label: string; href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block text-right text-sm font-medium text-foreground/78 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+      className="block text-right text-sm font-normal leading-relaxed text-foreground/78 underline-offset-4 transition-colors hover:underline"
       onMouseEnter={() => setTrigger(true)}
     >
       <TextScramble
-        className="text-sm font-medium text-inherit"
+        className="text-sm font-normal leading-relaxed text-inherit"
         as="span"
         speed={0.001}
         trigger={trigger}
