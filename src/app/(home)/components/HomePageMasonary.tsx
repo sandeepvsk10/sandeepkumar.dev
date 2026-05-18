@@ -92,8 +92,8 @@ const portfolioItems: PortfolioTile[] = [
 export function HomePageMasonary() {
   return (
     <section className="relative w-full py-10">
-      <h2 className="mb-6 text-base font-medium tracking-tight text-foreground">
-        Career &amp; Skills
+      <h2 className="mb-6 font-terminal text-md font-normal tracking-tight text-foreground">
+        hello@sandeepkumar.dev ~ % cd /sandeepkumar-dev
       </h2>
       <div className="relative min-h-[700px] w-full sm:min-h-[800px] lg:min-h-[900px]">
         <Masonry
@@ -124,12 +124,19 @@ export function HomePageMasonary() {
                     animated
                   />
                 </span>
-                <h3
-                  className="text-lg font-normal tracking-tight text-zinc-800 sm:text-xl"
-                  lang={item.lang}
-                >
-                  {item.title}
-                </h3>
+                <div className="flex flex-col gap-1">
+                  <h3
+                    className="text-lg font-normal tracking-tight text-zinc-800 sm:text-xl"
+                    lang={item.lang}
+                  >
+                    {item.title}
+                  </h3>
+                  {(!item.url || item.url === "#") && (
+                    <p className="text-sm font-normal tracking-tight text-zinc-600/90">
+                      (coming soon)
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           )}

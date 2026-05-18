@@ -8,7 +8,7 @@ const tiroTamil = Tiro_Tamil({
 
 export default function ThamizhPage() {
   return (
-    <main className="flex flex-1 items-center justify-center">
+    <main className="flex w-full flex-1 flex-col items-center justify-center py-12">
       <h1
         className={`${tiroTamil.className} text-7xl leading-none sm:text-8xl md:text-9xl`}
         lang="ta"
