@@ -109,6 +109,8 @@ export function Masonry<T extends MasonryItem>({
     1
   );
 
+  const isMobile = useMedia(["(max-width: 639px)"], [1], 0) === 1;
+
   const [containerRef, { width }] = useMeasure();
   const [ready, setReady] = useState(false);
 
@@ -164,6 +166,11 @@ export function Masonry<T extends MasonryItem>({
     });
   }, [columns, items, width]);
 
+  const containerHeight = useMemo(() => {
+    if (grid.length === 0) return 0;
+    return Math.max(...grid.map((item) => item.y + item.h));
+  }, [grid]);
+
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
@@ -179,24 +186,32 @@ export function Masonry<T extends MasonryItem>({
       };
 
       if (!hasMounted.current) {
-        const initialPos = getInitialPosition(item as GridItem);
-        const initialState: gsap.TweenVars = {
-          opacity: 0,
-          x: initialPos.x,
-          y: initialPos.y,
-          width: item.w,
-          height: item.h,
-          ...(blurToFocus && { filter: "blur(10px)" }),
-        };
+        if (isMobile) {
+          gsap.set(selector, {
+            opacity: 1,
+            ...animationProps,
+            filter: "blur(0px)",
+          });
+        } else {
+          const initialPos = getInitialPosition(item as GridItem);
+          const initialState: gsap.TweenVars = {
+            opacity: 0,
+            x: initialPos.x,
+            y: initialPos.y,
+            width: item.w,
+            height: item.h,
+            ...(blurToFocus && { filter: "blur(10px)" }),
+          };
 
-        gsap.fromTo(selector, initialState, {
-          opacity: 1,
-          ...animationProps,
-          ...(blurToFocus && { filter: "blur(0px)" }),
-          duration: 0.8,
-          ease: "power3.out",
-          delay: index * stagger,
-        });
+          gsap.fromTo(selector, initialState, {
+            opacity: 1,
+            ...animationProps,
+            ...(blurToFocus && { filter: "blur(0px)" }),
+            duration: 0.8,
+            ease: "power3.out",
+            delay: index * stagger,
+          });
+        }
       } else {
         gsap.to(selector, {
           opacity: 1,
@@ -210,7 +225,7 @@ export function Masonry<T extends MasonryItem>({
 
     hasMounted.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [grid, ready, stagger, animateFrom, blurToFocus, duration, ease]);
+  }, [grid, ready, stagger, animateFrom, blurToFocus, duration, ease, isMobile]);
 
   useEffect(() => {
     return () => {
@@ -239,7 +254,11 @@ export function Masonry<T extends MasonryItem>({
   };
 
   return (
-    <div ref={containerRef} className="masonry-list">
+    <div
+      ref={containerRef}
+      className="masonry-list"
+      style={{ height: containerHeight > 0 ? containerHeight : undefined }}
+    >
       {grid.map((item) => (
         <div
           key={item.id}
