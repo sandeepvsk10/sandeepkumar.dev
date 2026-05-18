@@ -32,6 +32,14 @@
   transform: none;
 }
 
+@media (max-width: 639px) {
+  .dock-panel--align-end {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
 .dock-item {
   position: relative;
   display: inline-flex;

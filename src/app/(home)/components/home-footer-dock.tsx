@@ -55,7 +55,7 @@ export function HomeFooterDock() {
         Anchor the dock to the bottom so when the outer height springs open for
         magnification, growth goes upward — the bar does not slide down the page.
       */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-end">
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center sm:justify-end">
         <Dock
           items={items}
           className="dock-panel--align-end"

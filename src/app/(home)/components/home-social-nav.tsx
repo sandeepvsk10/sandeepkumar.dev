@@ -14,7 +14,7 @@ function SocialNavLink({ label, href }: { label: string; href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block text-right text-sm font-normal leading-relaxed text-foreground/78 underline-offset-4 transition-colors hover:underline"
+      className="block text-left text-sm font-normal leading-relaxed text-foreground/78 underline-offset-4 transition-colors hover:underline sm:text-right"
       onMouseEnter={() => setTrigger(true)}
     >
       <TextScramble
@@ -34,7 +34,7 @@ function SocialNavLink({ label, href }: { label: string; href: string }) {
 export function HomeSocialNav() {
   return (
     <nav
-      className="flex shrink-0 flex-col items-end gap-1.5 self-end sm:gap-1.5"
+      className="flex w-full shrink-0 flex-col items-start gap-1.5 pl-[20%] sm:w-auto sm:pl-0 sm:items-end sm:self-end"
       aria-label="Social profiles"
     >
       {SOCIAL_LINKS.map(({ label, href }) => (

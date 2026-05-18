@@ -95,7 +95,7 @@ export function HomePageMasonary() {
       <h2 className="mb-6 font-terminal text-md font-normal tracking-tight text-foreground">
         hello@sandeepkumar.dev ~ % cd /sandeepkumar-dev
       </h2>
-      <div className="relative min-h-[700px] w-full sm:min-h-[800px] lg:min-h-[900px]">
+      <div className="relative w-full">
         <Masonry
           items={portfolioItems}
           ease="elastic.out"
