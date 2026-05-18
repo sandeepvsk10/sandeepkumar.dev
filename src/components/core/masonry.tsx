@@ -167,7 +167,7 @@ export function Masonry<T extends MasonryItem>({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!ready) return;
+    if (!ready || grid.length === 0) return;
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -211,6 +211,12 @@ export function Masonry<T extends MasonryItem>({
     hasMounted.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [grid, ready, stagger, animateFrom, blurToFocus, duration, ease]);
+
+  useEffect(() => {
+    return () => {
+      hasMounted.current = false;
+    };
+  }, []);
 
   const handleMouseEnter = (item: MasonryItem) => {
     if (!scaleOnHover) return;
