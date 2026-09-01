@@ -9,6 +9,29 @@ import { SOCIAL_LINKS } from "../constants/social-links";
 function SocialNavLink({ label, href }: { label: string; href: string }) {
   const [trigger, setTrigger] = useState(false);
 
+  const isDisabled = label === "LinkedIn";
+
+  if (isDisabled) {
+    return (
+      <span
+        className="block cursor-default select-none text-left text-sm font-normal leading-relaxed text-foreground/78 sm:text-right"
+        aria-disabled="true"
+        onMouseEnter={() => setTrigger(true)}
+      >
+        <TextScramble
+          className="text-sm font-normal leading-relaxed text-inherit"
+          as="span"
+          speed={0.001}
+          trigger={trigger}
+          onHoverStart={() => setTrigger(true)}
+          onScrambleComplete={() => setTrigger(false)}
+        >
+          {label}
+        </TextScramble>
+      </span>
+    );
+  }
+
   return (
     <a
       href={href}
