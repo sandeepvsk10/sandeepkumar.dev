@@ -40,11 +40,13 @@ export function HomeFooterDock() {
   const items = useMemo((): DockItemData[] => {
     return DOCK_SOCIAL.map((entry, i) => {
       const Icon = icons[i]!;
+      const isDisabled = entry.label === "LinkedIn";
       return {
         label: entry.label,
         icon: <Icon />,
-        onClick: () => openHref(entry.href),
+        onClick: isDisabled ? () => {} : () => openHref(entry.href),
         className: brandItemClass[i],
+        disabled: isDisabled,
       };
     });
   }, []);

@@ -33,6 +33,7 @@ export type DockItemData = {
   label: string;
   onClick: () => void;
   className?: string;
+  disabled?: boolean;
 };
 
 type DockItemProps = {
@@ -44,6 +45,7 @@ type DockItemProps = {
   distance: number;
   magnification: number;
   baseItemSize: number;
+  disabled?: boolean;
 };
 
 function DockItem({
@@ -55,6 +57,7 @@ function DockItem({
   distance,
   magnification,
   baseItemSize,
+  disabled = false,
 }: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isHovered = useMotionValue(0);
@@ -81,21 +84,24 @@ function DockItem({
       style={{
         width: size,
         height: size,
+        ...(disabled ? { cursor: "default" } : null),
       }}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
       onKeyDown={(e) => {
+        if (disabled) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onClick();
         }
       }}
       className={`dock-item ${className}`}
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       role="button"
+      aria-disabled={disabled ? true : undefined}
     >
       {Children.map(children, (child) =>
         isValidElement(child)
@@ -218,6 +224,7 @@ export default function Dock({
             distance={distance}
             magnification={magnification}
             baseItemSize={baseItemSize}
+            disabled={item.disabled}
           >
             <DockIcon>{item.icon}</DockIcon>
             <DockLabel>{item.label}</DockLabel>
