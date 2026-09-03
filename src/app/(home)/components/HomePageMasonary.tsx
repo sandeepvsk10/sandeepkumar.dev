@@ -32,7 +32,7 @@ const portfolioItems: PortfolioTile[] = [
   },
   {
     id: "ai-apps",
-    title: "AI Applications",
+    title: "Applications",
     bg: "bg-violet-200",
     loader: "center-ripple",
     url: "#",
