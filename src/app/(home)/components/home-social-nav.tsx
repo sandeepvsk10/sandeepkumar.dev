@@ -31,7 +31,7 @@ function SocialNavLink({ label, href }: { label: string; href: string }) {
 export function HomeSocialNav() {
   return (
     <nav
-      className="flex w-full shrink-0 flex-col items-start gap-1.5 pl-[20%] sm:w-auto sm:pl-0 sm:items-end sm:self-end"
+      className="flex w-full shrink-0 flex-col items-start gap-1.5 pl-[89px] sm:w-auto sm:pl-0 sm:items-end sm:self-end"
       aria-label="Social profiles"
     >
       {SOCIAL_LINKS.map(({ label, href }) => (
