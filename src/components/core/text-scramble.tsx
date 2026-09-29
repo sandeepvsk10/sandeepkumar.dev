@@ -42,15 +42,19 @@ export function TextScramble<T extends ElementType = "span">({
   const [display, setDisplay] = useState(text);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const completeRef = useRef(onScrambleComplete);
-  completeRef.current = onScrambleComplete;
 
   useEffect(() => {
-    if (!trigger) {
-      setDisplay(text);
-      return;
-    }
+    completeRef.current = onScrambleComplete;
+  }, [onScrambleComplete]);
 
-    const len = text.length;
+  useEffect(() => {
+    if (!trigger) return;
+
+    const characters = Array.from(
+      new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text),
+      ({ segment }) => segment
+    );
+    const len = characters.length;
     const totalIterations = Math.max(len * 5, 8);
     let frame = 0;
 
@@ -60,10 +64,10 @@ export function TextScramble<T extends ElementType = "span">({
 
       let out = "";
       for (let i = 0; i < len; i++) {
-        const ch = text[i]!;
+        const ch = characters[i]!;
         if (i < revealed) out += ch;
         else if (ch === " " || ch === "—" || ch === "-") out += ch;
-        else if (!/[a-zA-Z0-9]/.test(ch)) out += ch;
+        else if (!/[\p{L}\p{N}]/u.test(ch)) out += ch;
         else out += randomChar();
       }
 
@@ -87,17 +91,13 @@ export function TextScramble<T extends ElementType = "span">({
     };
   }, [trigger, text, speed]);
 
-  useEffect(() => {
-    if (!trigger) setDisplay(text);
-  }, [text, trigger]);
-
   return (
     <Component
       className={className}
       onMouseEnter={() => onHoverStart?.()}
       {...rest}
     >
-      {display}
+      {trigger ? display : text}
     </Component>
   );
 }

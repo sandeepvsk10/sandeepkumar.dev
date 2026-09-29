@@ -3,12 +3,29 @@
 @import "shadcn/tailwind.css";
 @import "@dotmatrix/core/styles.css";
 
+/* Inter 4.1 from the typeface's official distribution: https://rsms.me/inter/ */
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/InterVariable.woff2?v=4.1") format("woff2");
+}
+
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/InterVariable-Italic.woff2?v=4.1") format("woff2");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: InterVariable, ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, monospace;
   --font-terminal: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco,
@@ -130,5 +147,7 @@
   }
   html {
     @apply font-sans;
+    font-optical-sizing: auto;
+    font-feature-settings: "liga" 1, "calt" 1;
   }
 }

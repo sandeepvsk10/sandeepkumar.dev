@@ -83,15 +83,6 @@
   border-color: #7c3aed;
 }
 
-.dock-item-brand-linkedin:hover .dock-icon,
-.dock-item-brand-linkedin:focus-visible .dock-icon {
-  color: #0a66c2;
-}
-.dock-item-brand-linkedin:hover,
-.dock-item-brand-linkedin:focus-visible {
-  border-color: #0a66c2;
-}
-
 .dock-item-brand-x:hover .dock-icon,
 .dock-item-brand-x:focus-visible .dock-icon {
   color: #000000;

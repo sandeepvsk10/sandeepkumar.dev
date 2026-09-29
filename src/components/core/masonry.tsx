@@ -100,18 +100,10 @@ export function Masonry<T extends MasonryItem>({
 }: MasonryProps<T>) {
   const router = useRouter();
 
-  const columns = useMedia(
-    [
-      "(min-width:1000px)",
-      "(min-width:600px)",
-    ],
-    [3, 2],
-    1
-  );
-
   const isMobile = useMedia(["(max-width: 639px)"], [1], 0) === 1;
 
   const [containerRef, { width }] = useMeasure();
+  const columns = width >= 540 ? 3 : width >= 440 ? 2 : 1;
   const [ready, setReady] = useState(false);
 
   const getInitialPosition = (item: GridItem) => {
@@ -157,7 +149,7 @@ export function Masonry<T extends MasonryItem>({
     return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      const height = child.height / 2;
+      const height = child.height * 0.4;
       const y = colHeights[col];
 
       colHeights[col] += height;

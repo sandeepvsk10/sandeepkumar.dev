@@ -1,55 +1,29 @@
-"use client";
-
-import { useState } from "react";
-
-import { TextScramble } from "@/components/core/text-scramble";
+import { GithubIcon, NewTwitterIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import { SOCIAL_LINKS } from "../constants/social-links";
 
 function SocialNavLink({ label, href }: { label: string; href: string }) {
-  const [trigger, setTrigger] = useState(false);
-
-  const isDisabled = label === "LinkedIn";
-
-  if (isDisabled) {
-    return (
-      <span
-        className="block cursor-default select-none text-left text-sm font-normal leading-relaxed text-foreground/78 sm:text-right"
-        aria-disabled="true"
-        onMouseEnter={() => setTrigger(true)}
-      >
-        <TextScramble
-          className="text-sm font-normal leading-relaxed text-inherit"
-          as="span"
-          speed={0.001}
-          trigger={trigger}
-          onHoverStart={() => setTrigger(true)}
-          onScrambleComplete={() => setTrigger(false)}
-        >
-          {label}
-        </TextScramble>
-      </span>
-    );
-  }
+  const icon = label === "GitHub" ? GithubIcon : NewTwitterIcon;
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block text-left text-sm font-normal leading-relaxed text-foreground/78 underline-offset-4 transition-colors hover:underline sm:text-right"
-      onMouseEnter={() => setTrigger(true)}
+      aria-label={`${label} (@sandeepvsk10)`}
+      className="group inline-flex items-center text-left text-sm font-normal leading-relaxed text-foreground/78 underline-offset-4 transition-colors hover:underline sm:text-right"
     >
-      <TextScramble
-        className="text-sm font-normal leading-relaxed text-inherit"
-        as="span"
-        speed={0.001}
-        trigger={trigger}
-        onHoverStart={() => setTrigger(true)}
-        onScrambleComplete={() => setTrigger(false)}
-      >
+      <span className="inline-block max-w-20 shrink-0 overflow-hidden whitespace-nowrap transition-[max-width] duration-300 ease-out group-hover:max-w-0 group-hover:opacity-0 group-focus-visible:max-w-0 group-focus-visible:opacity-0 motion-reduce:transition-none">
         {label}
-      </TextScramble>
+      </span>
+      <span
+        aria-hidden="true"
+        className="inline-flex max-w-0 shrink-0 items-center gap-1.5 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity] duration-300 ease-out group-hover:max-w-40 group-hover:opacity-100 group-focus-visible:max-w-40 group-focus-visible:opacity-100 motion-reduce:transition-none"
+      >
+        <HugeiconsIcon icon={icon} size={16} strokeWidth={1.7} className="shrink-0" />
+        <span className="text-foreground/55">sandeepvsk10</span>
+      </span>
     </a>
   );
 }

@@ -5,18 +5,12 @@ import { useMemo } from "react";
 import Dock, { type DockItemData } from "@/components/dock/Dock";
 
 import { DOCK_SOCIAL } from "../constants/dock-social";
-import {
-  IconGithub,
-  IconLinkedin,
-  IconMail,
-  IconX,
-} from "./dock-social-icons";
+import { IconGithub, IconMail, IconX } from "./dock-social-icons";
 
-const icons = [IconGithub, IconLinkedin, IconX, IconMail] as const;
+const icons = [IconGithub, IconX, IconMail] as const;
 
 const brandItemClass = [
   "dock-item-brand-github",
-  "dock-item-brand-linkedin",
   "dock-item-brand-x",
   "dock-item-brand-mail",
 ] as const;
@@ -40,13 +34,11 @@ export function HomeFooterDock() {
   const items = useMemo((): DockItemData[] => {
     return DOCK_SOCIAL.map((entry, i) => {
       const Icon = icons[i]!;
-      const isDisabled = entry.label === "LinkedIn";
       return {
         label: entry.label,
         icon: <Icon />,
-        onClick: isDisabled ? () => {} : () => openHref(entry.href),
+        onClick: () => openHref(entry.href),
         className: brandItemClass[i],
-        disabled: isDisabled,
       };
     });
   }, []);

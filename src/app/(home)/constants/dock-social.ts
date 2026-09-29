@@ -5,10 +5,6 @@ export const DOCK_SOCIAL = [
     href: "https://github.com/sandeepvsk10",
   },
   {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/sandeepkumar-v/",
-  },
-  {
     label: "X",
     href: "https://x.com/sandeepvsk10",
   },
