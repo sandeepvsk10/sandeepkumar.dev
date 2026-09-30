@@ -39,52 +39,22 @@ interface MasonryProps<T extends MasonryItem> {
   blurToFocus?: boolean;
 }
 
-const useMedia = (
-  queries: string[],
-  values: number[],
-  defaultValue: number
-) => {
-  const get = () => {
-    if (typeof window === "undefined") return defaultValue;
-    return (
-      values[queries.findIndex((q) => window.matchMedia(q).matches)] ??
-      defaultValue
-    );
-  };
-
-  const [value, setValue] = useState(defaultValue);
-
-  useEffect(() => {
-    setValue(get());
-    const handler = () => setValue(get());
-    queries.forEach((q) =>
-      window.matchMedia(q).addEventListener("change", handler)
-    );
-    return () =>
-      queries.forEach((q) =>
-        window.matchMedia(q).removeEventListener("change", handler)
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queries]);
-
-  return value;
-};
-
 const useMeasure = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [width, setWidth] = useState(0);
 
   useLayoutEffect(() => {
     if (!ref.current) return;
     const ro = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      setSize({ width, height });
+      const nextWidth = entry.contentRect.width;
+      // Hidden tabs can briefly report zero; keep the last usable layout.
+      if (nextWidth > 0) setWidth(nextWidth);
     });
     ro.observe(ref.current);
     return () => ro.disconnect();
   }, []);
 
-  return [ref, size] as const;
+  return [ref, width] as const;
 };
 
 export function Masonry<T extends MasonryItem>({
@@ -100,11 +70,8 @@ export function Masonry<T extends MasonryItem>({
 }: MasonryProps<T>) {
   const router = useRouter();
 
-  const isMobile = useMedia(["(max-width: 639px)"], [1], 0) === 1;
-
-  const [containerRef, { width }] = useMeasure();
+  const [containerRef, width] = useMeasure();
   const columns = width >= 540 ? 3 : width >= 440 ? 2 : 1;
-  const [ready, setReady] = useState(false);
 
   const getInitialPosition = (item: GridItem) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -136,10 +103,6 @@ export function Masonry<T extends MasonryItem>({
     }
   };
 
-  useEffect(() => {
-    setReady(true);
-  }, []);
-
   const grid = useMemo(() => {
     if (!width) return [];
 
@@ -166,10 +129,15 @@ export function Masonry<T extends MasonryItem>({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!ready || grid.length === 0) return;
+    const container = containerRef.current;
+    if (!container || grid.length === 0) return;
+
+    const isMobile = window.matchMedia("(max-width: 639px)").matches;
 
     grid.forEach((item, index) => {
-      const selector = `[data-key="${item.id}"]`;
+      const element = container.querySelector<HTMLElement>(`[data-key="${item.id}"]`);
+      if (!element) return;
+
       const animationProps = {
         x: item.x,
         y: item.y,
@@ -178,8 +146,8 @@ export function Masonry<T extends MasonryItem>({
       };
 
       if (!hasMounted.current) {
-        if (isMobile) {
-          gsap.set(selector, {
+        if (isMobile || document.hidden) {
+          gsap.set(element, {
             opacity: 1,
             ...animationProps,
             filter: "blur(0px)",
@@ -195,7 +163,7 @@ export function Masonry<T extends MasonryItem>({
             ...(blurToFocus && { filter: "blur(10px)" }),
           };
 
-          gsap.fromTo(selector, initialState, {
+          gsap.fromTo(element, initialState, {
             opacity: 1,
             ...animationProps,
             ...(blurToFocus && { filter: "blur(0px)" }),
@@ -204,8 +172,14 @@ export function Masonry<T extends MasonryItem>({
             delay: index * stagger,
           });
         }
+      } else if (document.hidden) {
+        gsap.set(element, {
+          opacity: 1,
+          ...animationProps,
+          filter: "blur(0px)",
+        });
       } else {
-        gsap.to(selector, {
+        gsap.to(element, {
           opacity: 1,
           ...animationProps,
           duration: duration,
@@ -216,8 +190,49 @@ export function Masonry<T extends MasonryItem>({
     });
 
     hasMounted.current = true;
+
+    return () => {
+      grid.forEach((item) => {
+        const element = container.querySelector<HTMLElement>(`[data-key="${item.id}"]`);
+        if (element) gsap.killTweensOf(element);
+      });
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [grid, ready, stagger, animateFrom, blurToFocus, duration, ease, isMobile]);
+  }, [grid, stagger, animateFrom, blurToFocus, duration, ease]);
+
+  useEffect(() => {
+    const restoreTiles = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      grid.forEach((item) => {
+        const element = container.querySelector<HTMLElement>(`[data-key="${item.id}"]`);
+        if (!element) return;
+
+        gsap.killTweensOf(element);
+        gsap.set(element, {
+          opacity: 1,
+          filter: "blur(0px)",
+          x: item.x,
+          y: item.y,
+          width: item.w,
+          height: item.h,
+          scale: 1,
+        });
+      });
+    };
+
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) restoreTiles();
+    };
+
+    document.addEventListener("visibilitychange", restoreTiles);
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      document.removeEventListener("visibilitychange", restoreTiles);
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, [grid, containerRef]);
 
   useEffect(() => {
     return () => {
