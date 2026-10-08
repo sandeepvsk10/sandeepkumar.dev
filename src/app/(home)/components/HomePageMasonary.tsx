@@ -15,8 +15,8 @@ interface PortfolioTile extends MasonryItem {
 
 const portfolioItems: PortfolioTile[] = [
   {
-    id: "data-engineering",
-    title: "Data Engineering",
+    id: "gaming",
+    title: "Gaming",
     bg: "bg-blue-200",
     loader: "spiral",
     url: "#",
