@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ReactNode,
   useEffect,
@@ -8,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router";
 import { gsap } from "gsap";
 
 import "./masonry.css";
@@ -68,7 +66,7 @@ export function Masonry<T extends MasonryItem>({
   hoverScale = 0.95,
   blurToFocus = true,
 }: MasonryProps<T>) {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const [containerRef, width] = useMeasure();
   const columns = width >= 540 ? 3 : width >= 440 ? 2 : 1;
@@ -277,7 +275,7 @@ export function Masonry<T extends MasonryItem>({
             if (/^https?:\/\//i.test(url)) {
               window.open(url, "_blank", "noopener");
             } else {
-              router.push(url);
+              navigate(url);
             }
           }}
           onMouseEnter={() => handleMouseEnter(item)}

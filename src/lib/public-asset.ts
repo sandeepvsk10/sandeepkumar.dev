@@ -1,9 +1,4 @@
-/**
- * URL for files in `public/` when using `basePath` (e.g. GitHub Pages project sites).
- * Set `NEXT_PUBLIC_BASE_PATH` at build time to match `next.config.ts` (e.g. `/sandeepkumar.dev`).
- */
+/** Resolve public files against Vite's base URL, including GitHub Pages subpaths. */
 export function publicAsset(path: string): string {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalized}`;
+  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
 }

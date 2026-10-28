@@ -1,9 +1,10 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# Project instructions
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+This is a React + Vite + TypeScript project using Bun for dependencies and scripts.
 
-## Project layout for this repo
-
-Follow **`next-app-preference.md`** at the repository root for App Router folder conventions (route groups, per-route `components/` and `constants/`, shared `src/constants`, and home vs section layouts). Prefer extending that structure over inventing new patterns unless the task explicitly requires it.
+- Read `project-structure.md` for folder and routing conventions.
+- Use `bun install` and commit `bun.lock` when dependencies change.
+- Run `bun run lint` and `bun run build` before finishing code changes.
+- Keep route-specific components and constants alongside their page under `src/pages/`.
+- Shared components belong in `src/components/`; shared utilities in `src/lib/`.
+- Keep existing page URLs, responsive styling, and base-path support intact.

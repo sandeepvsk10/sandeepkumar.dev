@@ -1,7 +1,7 @@
 # Dependencies and build output
 node_modules
-.next
-out
+dist
+*.tsbuildinfo
 
 # Git and IDE
 .git
@@ -25,3 +25,7 @@ npm-debug.log*
 # Tests and misc
 coverage
 *.log
+
+# Browser verification artifacts
+.playwright-cli
+output

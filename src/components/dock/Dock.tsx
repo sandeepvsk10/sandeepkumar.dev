@@ -1,5 +1,3 @@
-"use client";
-
 import {
   AnimatePresence,
   motion,
@@ -155,7 +153,7 @@ type DockIconProps = {
   isHovered?: MotionValue<number>;
 };
 
-function DockIcon({ children, className = "", isHovered: _h }: DockIconProps) {
+function DockIcon({ children, className = "" }: DockIconProps) {
   return <div className={`dock-icon ${className}`}>{children}</div>;
 }
 

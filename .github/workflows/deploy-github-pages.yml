@@ -1,4 +1,4 @@
-# Deploy static export (`next build` → `out/`) to GitHub Pages.
+# Deploy the Vite build (`bun run build` → `dist/`) to GitHub Pages.
 #
 # REQUIRED ONE-TIME SETUP (or deploy fails with "Failed to create deployment (status: 404)"):
 # 1. Repo → Settings → Pages
@@ -30,13 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: npm
+          bun-version-file: package.json
 
       - name: Install
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Compute base path for project Pages sites
         shell: bash
@@ -44,20 +43,22 @@ jobs:
           OWNER="${{ github.repository_owner }}"
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
           if [ "$REPO_NAME" = "${OWNER}.github.io" ]; then
-            echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
+            echo "VITE_BASE_PATH=/" >> "$GITHUB_ENV"
             echo "Deploying user/org site at repo root (no base path)."
           else
-            echo "NEXT_PUBLIC_BASE_PATH=/${REPO_NAME}" >> "$GITHUB_ENV"
+            echo "VITE_BASE_PATH=/${REPO_NAME}/" >> "$GITHUB_ENV"
             echo "Deploying project site with base path /${REPO_NAME}"
           fi
 
-      - name: Build static export
-        run: npm run build
+      - name: Lint and build
+        run: |
+          bun run lint
+          bun run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: out
+          path: dist
 
   deploy:
     needs: build

@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/",
+    "title": "sandeepkumar.dev · Sandeep Kumar",
+    "description": "Portfolio, projects, and much more — welcome!"
+  },
+  {
+    "path": "/cool-companies",
+    "title": "Cool companies · Sandeep Kumar",
+    "description": "Interesting companies to watch — photonics, tooling, and more — Sandeep Kumar"
+  },
+  {
+    "path": "/dev-setup",
+    "title": "Dev Setup · Sandeep Kumar",
+    "description": "Development environment and tooling — Sandeep Kumar"
+  },
+  {
+    "path": "/neo4j",
+    "title": "Neo4j · Sandeep Kumar",
+    "description": "Graph databases and Cypher — Sandeep Kumar"
+  },
+  {
+    "path": "/open-source",
+    "title": "Open source · Sandeep Kumar",
+    "description": "Projects and contributions — Sandeep Kumar"
+  },
+  {
+    "path": "/python",
+    "title": "Python · Sandeep Kumar",
+    "description": "Python notes and tooling — Sandeep Kumar"
+  },
+  {
+    "path": "/thamizh",
+    "title": "Thamizh · Sandeep Kumar",
+    "description": "Tamil language — Sandeep Kumar"
+  }
+]

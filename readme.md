@@ -1,48 +1,55 @@
 # sandeepkumar.dev
 
-Hello, this is **Sandeep!** Thanks for visiting my GitHub and portfolio.
+Sandeep Kumar's personal portfolio, built with React, Vite, TypeScript, and Tailwind CSS v4.
 
-**serving at:** [sandeepkumar.dev](https://sandeepvsk10.github.io/sandeepkumar.dev)
+**Site:** [sandeepkumar.dev](https://sandeepvsk10.github.io/sandeepkumar.dev)
 
 <img src="public/readme/car-with-computer.jpg" alt="hello" width="420" />
 
-Find me on X: [@sandeepvsk10](https://x.com/sandeepvsk10)
-
-## About
-
-This is my personal portfolio site, built with Next.js App Router, React, TypeScript, and Tailwind CSS.
-
-## Pages
-
-The project currently has 7 app pages:
-
-- `/`
-- `/cool-companies`
-- `/dev-setup`
-- `/neo4j`
-- `/open-source`
-- `/python`
-- `/thamizh`
+Find me on X: [@sandeepvsk10](https://x.com/sandeepvsk10).
 
 ## Development
 
-```bash
-npm install
-npm run dev
+Install [Bun](https://bun.sh/) (the pinned version is in `package.json`), then:
+
+```sh
+bun install
+bun run dev
 ```
 
-Useful scripts:
+- `bun run build`: type-check, build with Vite, and generate static route entries in `dist/`.
+- `bun run preview`: preview the production build locally.
+- `bun run lint`: run ESLint.
+- `bun run typecheck`: check TypeScript without emitting files.
 
-- `npm run dev` starts the local development server.
-- `npm run build` creates a production build.
-- `npm run lint` checks the code with ESLint.
-- `npm run preview` serves the exported `out` directory.
+Bun is the package manager and script runtime; Vite bundles the frontend. Commit `bun.lock` when changing dependencies. CI uses `bun install --frozen-lockfile`.
+
+## Pages and structure
+
+Pages: `/`, `/cool-companies`, `/dev-setup`, `/neo4j`, `/open-source`, `/python`, and `/thamizh`.
+
+See [project-structure.md](project-structure.md) for page, layout, component, and routing conventions. The site is client-rendered with React Router; each known route also gets an HTML entry with its title and description so direct visits and refreshes work on static hosts. Unknown URLs display a custom 404 page.
+
+## Deployment
+
+The GitHub Pages workflow builds with Bun and uploads `dist/`. In repository Settings → Pages, set the source to **GitHub Actions**. The workflow automatically sets the base URL for project versus user/org sites.
+
+For a manual subpath build:
+
+```sh
+VITE_BASE_PATH=/sandeepkumar.dev/ bun run build
+bun run preview
+```
+
+The default base URL is `/`. Assets and navigation both respect `VITE_BASE_PATH`; use a leading and trailing slash.
+
+Docker builds with Bun and serves the static files with unprivileged Nginx. Cloud Run's `PORT` environment variable is supported (default `8080`).
+
+```sh
+docker build -t sandeepkumar-dev .
+docker run --rm -p 8080:8080 sandeepkumar-dev
+```
 
 ## Thanks
 
-Thanks to the package maintainers and devs behind the tools used in my portfolio.
-
-- [GSAP](https://gsap.com/)
-- [Lucide React](https://lucide.dev/)
-- [Motion](https://motion.dev/)
-- [Next.js](https://nextjs.org/)
+Thanks to the maintainers of React, Vite, Bun, Tailwind CSS, GSAP, Motion, Lucide, and the other packages used by this portfolio.

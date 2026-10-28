@@ -1,18 +1,25 @@
+import js from "@eslint/js";
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
+export default defineConfig([
+  globalIgnores(["dist/**", "node_modules/**"]),
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+  },
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    extends: [reactHooks.configs.flat.recommended, reactRefresh.configs.vite],
+  },
+  {
+    files: ["src/components/ui/button.tsx"],
+    rules: {
+      "react-refresh/only-export-components": ["error", { allowExportNames: ["buttonVariants"] }],
+    },
+  },
 ]);
-
-export default eslintConfig;
