@@ -16,10 +16,4 @@ export default defineConfig([
     files: ["src/**/*.{ts,tsx}"],
     extends: [reactHooks.configs.flat.recommended, reactRefresh.configs.vite],
   },
-  {
-    files: ["src/components/ui/button.tsx"],
-    rules: {
-      "react-refresh/only-export-components": ["error", { allowExportNames: ["buttonVariants"] }],
-    },
-  },
 ]);

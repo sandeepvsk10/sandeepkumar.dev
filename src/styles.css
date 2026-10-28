@@ -3,8 +3,6 @@
 @import "@fontsource-variable/geist-mono/index.css";
 @import "@fontsource/tiro-tamil/tamil-400.css";
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 @import "@dotmatrix/core/styles.css";
 
 @custom-variant dark (&:is(.dark *));
