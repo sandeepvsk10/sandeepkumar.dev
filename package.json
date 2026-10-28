@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun vite",
-    "build": "bun run typecheck && bun --bun vite build && bun scripts/static-routes.ts",
+    "build": "bun run typecheck && bun --bun vite build",
     "preview": "bun --bun vite preview",
     "lint": "bun --bun eslint .",
     "typecheck": "bun --bun tsc --noEmit"
@@ -25,7 +25,6 @@
   "devDependencies": {
     "@eslint/js": "^9",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/bun": "^1.4.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
