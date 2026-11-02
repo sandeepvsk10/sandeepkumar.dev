@@ -1,32 +1,26 @@
 [
   {
     "path": "/",
-    "title": "sandeepkumar.dev · Sandeep Kumar",
-    "description": "Portfolio, projects, and much more — welcome!"
+    "title": "sandeepkumar.dev · Sandeep Kumar"
   },
   {
     "path": "/blog",
-    "title": "Blog · Sandeep Kumar",
-    "description": "Notes and writing — Sandeep Kumar"
+    "title": "Blog · Sandeep Kumar"
   },
   {
     "path": "/blog/trying-rex-from-superlogical",
-    "title": "Terminal Connoisseuring — Trying Rex from Superlogical · Sandeep Kumar",
-    "description": "My experience trying Rex, the terminal multiplexer from Superlogical."
+    "title": "Terminal Connoisseuring — Trying Rex from Superlogical · Sandeep Kumar"
   },
   {
     "path": "/blog/build-around-and-find-out",
-    "title": "Build around and find out · Sandeep Kumar",
-    "description": "Finding your footing in software development as the tools and ways of coding keep changing."
+    "title": "Build around and find out · Sandeep Kumar"
   },
   {
     "path": "/dev-env",
-    "title": "Dev Env · Sandeep Kumar",
-    "description": "Development environment and tooling — Sandeep Kumar"
+    "title": "Dev Env · Sandeep Kumar"
   },
   {
     "path": "/thamizh",
-    "title": "Thamizh · Sandeep Kumar",
-    "description": "Tamil language — Sandeep Kumar"
+    "title": "Thamizh · Sandeep Kumar"
   }
 ]

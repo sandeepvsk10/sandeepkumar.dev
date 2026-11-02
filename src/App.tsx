@@ -35,9 +35,6 @@ export function App() {
 
   useEffect(() => {
     document.title = metadata?.title ?? "Page not found · Sandeep Kumar";
-    document.querySelector('meta[name="description"]')?.setAttribute(
-      "content", metadata?.description ?? "This page could not be found.",
-    );
   }, [metadata]);
 
   return (
