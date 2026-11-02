@@ -3,6 +3,14 @@ import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState, ty
 import { publicAsset } from "@/lib/public-asset";
 import "./home-entrance.css";
 
+// Document-scoped, not session-scoped: a fresh home load may animate again,
+// but SPA navigation (including Back/Forward) must not replay the entrance.
+const navigation = performance.getEntriesByType("navigation")[0];
+const documentPath = new URL(navigation?.name ?? window.location.href).pathname;
+const normalizePath = (path: string) => path.replace(/\/+$/, "") || "/";
+const startedOnHome = normalizePath(documentPath) === normalizePath(import.meta.env.BASE_URL);
+let entranceConsumed = false;
+
 const LiquidGlassLogo = lazy(() => import("@/components/liquid-glass-logo").then((module) => ({
   default: module.LiquidGlassLogo,
 })));
@@ -15,7 +23,9 @@ class EntranceBoundary extends Component<{ children: ReactNode; onError: () => v
 }
 
 export function HomeEntrance({ children }: { children: ReactNode }) {
-  const [phase, setPhase] = useState<"playing" | "fading" | "finished">("playing");
+  const [phase, setPhase] = useState<"playing" | "fading" | "finished">(
+    () => startedOnHome && !entranceConsumed ? "playing" : "finished",
+  );
   const hold = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fade = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -31,6 +41,7 @@ export function HomeEntrance({ children }: { children: ReactNode }) {
   const finished = phase === "finished";
   useEffect(() => {
     if (finished) return;
+    entranceConsumed = true;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     // Fail open if a lazy chunk, GPU context, or image never finishes loading.
