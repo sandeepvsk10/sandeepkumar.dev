@@ -1,0 +1,20 @@
+.home-entrance-logo {
+  max-width: 960px;
+  max-height: 100svh;
+  min-height: 0;
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+
+.home-entrance[data-phase="fading"] .home-entrance-logo {
+  opacity: 0;
+}
+
+/* Keep the favicon black on white regardless of the system color scheme. */
+.home-entrance .liquid-glass-logo-fallback > img {
+  filter: brightness(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-entrance-logo { transition: none; }
+}

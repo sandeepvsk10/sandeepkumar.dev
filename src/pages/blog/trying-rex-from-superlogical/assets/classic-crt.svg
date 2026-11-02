@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="Beige CRT terminal with green prompt and classic rainbow Apple logo">
+<defs>
+<linearGradient id="case" x1="25" y1="10" x2="104" y2="120" gradientUnits="userSpaceOnUse"><stop stop-color="#eee3c9"/><stop offset=".5" stop-color="#d9c9a5"/><stop offset="1" stop-color="#c0ad85"/></linearGradient>
+<linearGradient id="screen" x1="64" y1="24" x2="64" y2="97" gradientUnits="userSpaceOnUse"><stop stop-color="#303437"/><stop offset="1" stop-color="#090c0d"/></linearGradient>
+<linearGradient id="rex" x1="25" y1="30" x2="104" y2="98" gradientUnits="userSpaceOnUse"><stop stop-color="#d6b4f3"/><stop offset=".35" stop-color="#f2b9dc"/><stop offset=".7" stop-color="#ffd89c"/><stop offset="1" stop-color="#a9dff5"/></linearGradient>
+<filter id="shadow" x="-30%" y="-25%" width="160%" height="170%"><feDropShadow dy="3" stdDeviation="3" flood-opacity=".18"/></filter>
+
+</defs>
+<g transform="translate(-2 0) scale(1.03 1)"><rect x="14" y="9" width="100" height="108" rx="21" fill="url(#case)" stroke="#b4a27d" filter="url(#shadow)"/>
+<path d="M23 30c0-7 5-12 12-12h58c7 0 12 5 12 12" stroke="#f8f1df" stroke-opacity=".65" stroke-width="2"/>
+<rect x="22" y="20" width="84" height="76" rx="16" fill="#7b7465"/>
+<rect x="25" y="23" width="78" height="70" rx="13" fill="url(#screen)" stroke="#080b0b" stroke-width="2"/>
+<path d="M28 36c0-6 4-10 10-10h52c5 0 10 4 10 10v17c-23 9-46 7-72-2Z" fill="#fff" opacity=".045"/>
+<path d="M61 106h30" stroke="#6f6753" stroke-width="3" stroke-linecap="round"/>
+<path d="M84 106h14" stroke="#24251f" stroke-width="4"/>
+<svg x="27" y="99" width="10" height="12" xmlns="http://www.w3.org/2000/svg" version="1.2" viewBox="0 0 89.89 104.6"><defs><clipPath id="a"><path d="M150.97 50.8c-9.07.38-19.66 3.95-25.85 8.6-5.62 4.21-10.26 10.47-8.46 16.56 9.9.19 20.13-3.47 26.07-8.18 5.55-4.4 9.77-10.63 8.24-16.99m3.35 24.48c-15.27 0-21.72 4.49-32.31 4.49-10.92 0-19.23-4.49-32.43-4.49-12.98 0-26.77 4.88-35.51 13.21l-.16.16A24.3 24.3 0 0 0 46.88 102c-.76 4.14-.56 8.66.62 13.35a46 46 0 0 0 5.93 13.35 65 65 0 0 0 11.45 13.35c7 6.45 16.2 13.28 28.04 13.34 11.08.07 14.21-4.37 29.24-4.42s17.87 4.47 28.94 4.4c11.35-.05 20.7-7 27.67-13.32l1.98-1.83a70 70 0 0 0 10.12-11.51l.87-1.18c-9.96-2.32-17.03-6.85-20.85-12.18-3-4.18-4-8.86-2.81-13.35 1.31-4.98 5.3-9.73 12.2-13.35a45 45 0 0 1 6.52-2.76c-8.72-6.72-20.95-10.61-32.48-10.61"/></clipPath></defs><g clip-path="url(#a)" transform="matrix(.61862 0 0 1 -28.72 -50.8)"><g stroke-linecap="round"><path fill="#75bd21" d="M24.86 37.45H213.3V102H24.86z"/><path fill="#ffc728" d="M24.86 88.65H213.3v26.7H24.86z"/><path fill="#ff661c" d="M24.86 102H213.3v26.7H24.86z"/><path fill="#cf0f2b" d="M24.86 115.35H213.3v26.7H24.86z"/><path fill="#b01cab" d="M24.86 128.7H213.3v26.68H24.86z"/><path fill="#00a1de" d="M24.86 142.06H213.3v26.68H24.86z"/></g></g></svg><path d="m37 37 7 5-7 5m13 2h8" stroke="#7ceb58" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</g></svg>

@@ -1,0 +1,20 @@
+@import "../assets/fonts/inter/inter.css";
+
+.blog-post {
+  font-family: "Inter Official", ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: auto;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .blog-category-icon:hover {
+    animation: blog-category-wiggle 450ms ease-in-out;
+  }
+}
+
+@keyframes blog-category-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(7deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(3deg); }
+}

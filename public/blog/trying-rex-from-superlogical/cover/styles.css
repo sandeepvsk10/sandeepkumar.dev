@@ -1,0 +1,89 @@
+:root {
+  color-scheme: light;
+  --border-accent: linear-gradient(135deg, #d6b4f3 0%, #f2b9dc 32%, #ffd89c 65%, #a9dff5 100%);
+  --duration: 420ms;
+  --gap: clamp(12px, 2vw, 28px);
+  --radius: clamp(18px, 2.5vw, 36px);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; min-height: 100%; background: #fff; }
+body { overflow: hidden; }
+.stage { height: 100svh; display: grid; place-items: center; }
+.window {
+  position: relative;
+  width: 100%; height: 100%;
+  animation: enter 650ms var(--ease) both;
+}
+.pane {
+  position: absolute;
+  top: 0; bottom: 0; width: 100%;
+  display: grid; place-items: center;
+  transition: width var(--duration) var(--ease);
+}
+.pane--left { left: 0; }
+.pane--right { right: 0; }
+.subpane {
+  position: absolute; left: 0; right: 0; height: 100%;
+  display: grid; place-items: center;
+  transition: height var(--duration) var(--ease);
+}
+.subpane--top { top: 0; }
+.subpane--bottom { bottom: 0; opacity: 0; transition: height var(--duration) var(--ease), opacity var(--duration) ease; }
+/* Border layers stay independent from the moving content. */
+.material {
+  position: absolute; inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+}
+.material::before {
+  content: "";
+  position: absolute; inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: var(--border-accent);
+  /* Cut out the center so the border layer never paints over a logo. */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+.material--initial { transition: opacity 140ms ease-out; }
+.material--pane { opacity: 0; transition: opacity 180ms ease-out; }
+.material--subpane { opacity: 0; transition: opacity 180ms ease-out; }
+.logo-position { width: clamp(48px, 10vmin, 160px); aspect-ratio: 1; }
+.logo-position img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.pane--right .logo-position { opacity: 0; transition: opacity var(--duration) ease; }
+.is-split .pane { width: calc((100% - var(--gap)) / 2); }
+.is-settled .material--initial { opacity: 0; }
+.is-split .pane--right .logo-position { opacity: 1; }
+/* Reveal the finished borders only after the panes reach their destinations. */
+.is-settled .material--pane { opacity: 1; }
+.is-horizontal .subpane { height: calc((100% - var(--gap)) / 2); }
+.is-horizontal .subpane--bottom { opacity: 1; }
+.is-horizontal-settled .pane--right > .material--pane { opacity: 0; }
+.is-horizontal-settled .material--subpane { opacity: 1; }
+.logo-position img.pulse { animation: update-pulse 360ms ease-in-out; }
+@keyframes update-pulse {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  72% { transform: scale(.98); }
+}
+@keyframes enter { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .window, .logo-position img.pulse { animation: none; }
+  .pane, .subpane, .material, .pane--right .logo-position { transition: none; }
+}
+
+/* A temporary focus pane expands above the finished layout. */
+.zoom-pane {
+  position: absolute;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.zoom-pane .material { opacity: 1; }
+.is-resetting *, .is-resetting *::before { transition: none !important; animation: none !important; }

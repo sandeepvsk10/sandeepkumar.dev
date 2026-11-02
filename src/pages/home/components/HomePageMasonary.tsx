@@ -16,6 +16,22 @@ interface PortfolioTile extends MasonryItem {
 
 const portfolioItems: PortfolioTile[] = [
   {
+    id: "engineering",
+    title: "Engineering",
+    bg: "bg-emerald-200",
+    loader: "outer-ring",
+    url: "#",
+    height: 500,
+  },
+  {
+    id: "building",
+    title: "Building",
+    bg: "bg-violet-200",
+    loader: "center-ripple",
+    url: "#",
+    height: 560,
+  },
+  {
     id: "gaming",
     title: "Gaming",
     bg: "bg-blue-200",
@@ -24,60 +40,28 @@ const portfolioItems: PortfolioTile[] = [
     height: 600,
   },
   {
-    id: "graph-databases",
-    title: "Graph Databases",
-    bg: "bg-emerald-200",
-    loader: "outer-ring",
-    url: "/neo4j",
-    height: 500,
-  },
-  {
-    id: "ai-apps",
-    title: "Applications",
-    bg: "bg-violet-200",
-    loader: "center-ripple",
-    url: "#",
-    height: 700,
-  },
-  {
     id: "open-source",
     title: "Open Source",
     bg: "bg-amber-200",
     loader: "ripple-echo",
-    url: "/open-source",
+    url: "#",
     height: 550,
-  },
-  {
-    id: "python",
-    title: "Projects",
-    bg: "bg-rose-200",
-    loader: "path-trbl",
-    url: "/python",
-    height: 650,
   },
   {
     id: "blog",
     title: "Blog",
     bg: "bg-orange-200",
     loader: "path-row",
-    url: "#",
+    url: "/blog",
     height: 550,
   },
   {
-    id: "dev-setup",
-    title: "Dev Setup",
+    id: "dev-env",
+    title: "Dev Env",
     bg: "bg-indigo-200",
     loader: "diagonal-snake",
-    url: "/dev-setup",
+    url: "/dev-env",
     height: 480,
-  },
-  {
-    id: "books",
-    title: "Books",
-    bg: "bg-cyan-200",
-    loader: "ripple",
-    url: "#",
-    height: 520,
   },
   {
     id: "thamizh",
@@ -143,7 +127,7 @@ export function HomePageMasonary() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="relative flex min-w-0 flex-col">
           <h2 className="mb-6 flex min-h-7 items-center font-terminal text-md font-normal tracking-tight text-foreground">
-            hello@sandeepkumar.dev ~ % cd /sandeepkumar-dev
+            hello@sandeepkumar.dev ~ % ls
           </h2>
           <Masonry
             items={portfolioItems}

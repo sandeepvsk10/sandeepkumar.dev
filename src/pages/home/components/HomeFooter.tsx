@@ -1,4 +1,4 @@
-import { HomeFooterDock } from "./home-footer-dock";
+import { HomeFooterSocials } from "./home-footer-socials";
 
 export function HomeFooter() {
   return (
@@ -22,9 +22,7 @@ export function HomeFooter() {
           </a>
         </p>
       </div>
-      <div className="flex min-h-[88px] w-full flex-1 flex-col items-center justify-center sm:h-full sm:min-h-0 sm:w-auto sm:items-end sm:justify-end sm:self-stretch">
-        <HomeFooterDock />
-      </div>
+      <HomeFooterSocials />
     </footer>
   );
 }

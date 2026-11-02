@@ -1,0 +1,25 @@
+/* ReactDrops arrow artwork: see src/components/reactdrops-LICENSE.txt.
+ * Use the browser's cursor layer, not a DOM overlay or pointermove listeners.
+ * Paths are relative to this stylesheet so nested pages and base paths work.
+ */
+@media (hover: hover) and (pointer: fine) and (forced-colors: none) {
+  html {
+    cursor: url("./design-arrow.svg") 4 3, default;
+  }
+
+  :where(a[href], button:enabled, summary, label[for],
+      [role="button"], [role="link"],
+      input[type="range"]:enabled, input[type="checkbox"]:enabled,
+      input[type="radio"]:enabled, .masonry-item-wrapper, .cursor-pointer) {
+    cursor: pointer;
+  }
+
+  :where(textarea, input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"]):not([type="color"]),
+      [contenteditable]:not([contenteditable="false"])) {
+    cursor: text;
+  }
+
+  :where(:disabled, [aria-disabled="true"], fieldset:disabled) {
+    cursor: not-allowed;
+  }
+}

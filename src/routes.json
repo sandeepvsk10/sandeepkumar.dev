@@ -5,29 +5,24 @@
     "description": "Portfolio, projects, and much more — welcome!"
   },
   {
-    "path": "/cool-companies",
-    "title": "Cool companies · Sandeep Kumar",
-    "description": "Interesting companies to watch — photonics, tooling, and more — Sandeep Kumar"
+    "path": "/blog",
+    "title": "Blog · Sandeep Kumar",
+    "description": "Notes and writing — Sandeep Kumar"
   },
   {
-    "path": "/dev-setup",
-    "title": "Dev Setup · Sandeep Kumar",
+    "path": "/blog/trying-rex-from-superlogical",
+    "title": "Terminal Connoisseuring — Trying Rex from Superlogical · Sandeep Kumar",
+    "description": "My experience trying Rex, the terminal multiplexer from Superlogical."
+  },
+  {
+    "path": "/blog/build-around-and-find-out",
+    "title": "Build around and find out · Sandeep Kumar",
+    "description": "Finding your footing in software development as the tools and ways of coding keep changing."
+  },
+  {
+    "path": "/dev-env",
+    "title": "Dev Env · Sandeep Kumar",
     "description": "Development environment and tooling — Sandeep Kumar"
-  },
-  {
-    "path": "/neo4j",
-    "title": "Neo4j · Sandeep Kumar",
-    "description": "Graph databases and Cypher — Sandeep Kumar"
-  },
-  {
-    "path": "/open-source",
-    "title": "Open source · Sandeep Kumar",
-    "description": "Projects and contributions — Sandeep Kumar"
-  },
-  {
-    "path": "/python",
-    "title": "Python · Sandeep Kumar",
-    "description": "Python notes and tooling — Sandeep Kumar"
   },
   {
     "path": "/thamizh",
