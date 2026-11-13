@@ -1,7 +1,7 @@
 import { publicAsset } from "@/lib/public-asset";
 import { BlogPost, BlogPostMedia } from "@/components/blog-post";
 import classicCrt from "./assets/classic-crt.svg";
-import { ClaudeMascot } from "./components/claude-mascot";
+import { ClaudeMascot } from "@/components/claude-mascot";
 
 export default function RexPostPage() {
   return (

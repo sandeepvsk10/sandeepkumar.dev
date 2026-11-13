@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import confetti from "../assets/claude-mascot.svg";
-import flag from "../assets/claude-flag.svg";
-import props from "../assets/claude-props.svg";
+import flag from "@/assets/claude-mascot/claude-flag.svg";
+import confetti from "@/assets/claude-mascot/claude-mascot.svg";
+import props from "@/assets/claude-mascot/claude-props.svg";
 
 const versions = [
   { src: confetti, alt: "Claude mascot waving with confetti", duration: 2000, offset: -1 },
@@ -10,7 +10,19 @@ const versions = [
   { src: props, alt: "Claude mascot dancing and playing with props", duration: 3360, offset: -4 },
 ] as const;
 
-export function ClaudeMascot() {
+/** Base size the per-animation offsets were tuned for. */
+const BASE_SIZE = 40;
+
+interface ClaudeMascotProps {
+  /** Rendered width/height of each animation in pixels. */
+  size?: number;
+  className?: string;
+}
+
+/** Plays the Claude mascot animations one after another on a loop. */
+export function ClaudeMascot({ size = BASE_SIZE, className = "h-8 w-10" }: ClaudeMascotProps) {
+  const scale = size / BASE_SIZE;
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -35,15 +47,19 @@ export function ClaudeMascot() {
   }, [index]);
 
   return (
-    <span className="relative inline-block h-8 w-10 shrink-0">
+    <span className={`relative inline-block shrink-0 ${className}`}>
       <img
         key={index}
         src={versions[index].src}
         alt={versions[index].alt}
-        width={40}
-        height={40}
-        className="absolute left-1/2 top-1/2 size-10 object-contain"
-        style={{ transform: `translate(-50%, -50%) translateY(${versions[index].offset}px)` }}
+        width={size}
+        height={size}
+        className="absolute left-1/2 top-1/2 max-w-none object-contain"
+        style={{
+          width: size,
+          height: size,
+          transform: `translate(-50%, -50%) translateY(${versions[index].offset * scale}px)`,
+        }}
       />
     </span>
   );

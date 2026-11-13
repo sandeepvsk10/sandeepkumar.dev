@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { ClaudeMascot } from "@/components/claude-mascot";
 import { Masonry, MasonryItem } from "@/components/core/masonry";
 import { TextScramble } from "@/components/core/text-scramble";
 import {
@@ -7,11 +8,16 @@ import {
   type DotMatrixVariant,
 } from "@/components/ui/portfolio-dot-matrix";
 
+import { TileImageSlideshow } from "./tile-image-slideshow";
+
 interface PortfolioTile extends MasonryItem {
   title: string;
   bg: string;
   loader: DotMatrixVariant;
   lang?: string;
+  images?: string[];
+  /** Show the looping Claude mascot animations in the tile. */
+  mascot?: boolean;
 }
 
 const portfolioItems: PortfolioTile[] = [
@@ -38,6 +44,22 @@ const portfolioItems: PortfolioTile[] = [
     loader: "spiral",
     url: "#",
     height: 600,
+    images: [
+      // "/home/gaming/val-chamber-1.avif",
+      // "/home/gaming/val-chamber-2.avif",
+      "/home/gaming/val-chamber-3.avif",
+      "/home/gaming/val-chamber-4.avif",
+      "/home/gaming/fifa-haaland-1.avif",
+    ],
+  },
+  {
+    id: "ai",
+    title: "AI",
+    bg: "bg-orange-200",
+    loader: "middle-ring",
+    url: "#",
+    height: 550,
+    mascot: true,
   },
   {
     id: "open-source",
@@ -50,7 +72,7 @@ const portfolioItems: PortfolioTile[] = [
   {
     id: "blog",
     title: "Blog",
-    bg: "bg-orange-200",
+    bg: "bg-rose-200",
     loader: "path-row",
     url: "/blog",
     height: 550,
@@ -76,6 +98,7 @@ const portfolioItems: PortfolioTile[] = [
 
 function PortfolioTileContent({ item }: { item: PortfolioTile }) {
   const [trigger, setTrigger] = useState(false);
+  const hasImages = Boolean(item.images?.length);
 
   return (
     <div
@@ -86,20 +109,33 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
         aria-hidden
         className={`absolute inset-0 rounded-2xl ${item.bg} opacity-80 transition-opacity group-hover:opacity-100`}
       />
-      <div className="relative z-10 flex flex-col gap-4">
+      {item.images && <TileImageSlideshow images={item.images} />}
+      {item.mascot && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-5 top-5"
+        >
+          <ClaudeMascot size={88} className="block size-22" />
+        </div>
+      )}
+      <div
+        className={`relative z-10 flex flex-col gap-4 ${hasImages || item.mascot ? "mt-auto" : ""}`}
+      >
         <span aria-hidden className="inline-flex shrink-0">
           <PortfolioDotMatrix
             variant={item.loader}
             size={22}
             dotSize={2.5}
-            color="#000000"
+            color={hasImages ? "#ffffff" : "#000000"}
             speed={0.65}
             animated
           />
         </span>
         <div className="flex flex-col gap-1">
           <h3
-            className="text-base font-normal tracking-tight text-zinc-800 sm:text-lg"
+            className={`text-base font-normal tracking-tight sm:text-lg ${
+              hasImages ? "text-white" : "text-zinc-800"
+            }`}
             lang={item.lang}
           >
             <TextScramble
@@ -111,7 +147,11 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
             </TextScramble>
           </h3>
           {(!item.url || item.url === "#") && (
-            <p className="text-xs font-normal tracking-tight text-zinc-600/90 sm:text-sm">
+            <p
+              className={`text-xs font-normal tracking-tight sm:text-sm ${
+                hasImages ? "text-white/80" : "text-zinc-600/90"
+              }`}
+            >
               (coming soon)
             </p>
           )}
