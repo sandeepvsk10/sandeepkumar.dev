@@ -41,6 +41,7 @@ const createConstruction = () => [...createTangents(OUTER_RADIUS), ...createTang
 
 export function OpenSourceLogo() {
   const [animation, setAnimation] = useState(() => ({ replay: 0, tangents: createConstruction() }));
+  const [hasCompleted, setHasCompleted] = useState(false);
   const id = useId();
   const gradientId = `${id}-fill-gradient`;
   const fillMaskId = `${id}-fill-mask`;
@@ -103,7 +104,12 @@ export function OpenSourceLogo() {
           fill="currentColor"
           mask={`url(#${fillMaskId})`}
         />
-        <g className="oss-avatar">
+        <g
+          className="oss-avatar"
+          onAnimationEnd={(event) => {
+            if (event.animationName === "oss-show-avatar") setHasCompleted(true);
+          }}
+        >
           <circle cx="100" cy="138" r="64" fill="var(--background)" />
           <image
             href={publicAsset("/home/portfolio.webp")}
@@ -116,7 +122,7 @@ export function OpenSourceLogo() {
           />
         </g>
       </svg>
-      <button
+      {hasCompleted && <button
         type="button"
         aria-label="Replay logo animation"
         title="Replay animation"
@@ -127,7 +133,7 @@ export function OpenSourceLogo() {
         className="oss-replay absolute bottom-3 right-3 rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         <HugeiconsIcon icon={ReplayIcon} size={16} strokeWidth={1.5} aria-hidden="true" />
-      </button>
+      </button>}
     </>
   );
 }
