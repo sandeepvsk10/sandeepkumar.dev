@@ -9,7 +9,7 @@ export function HomeHeader() {
         <div className="relative size-[61px] shrink-0 overflow-hidden rounded-full border border-border bg-muted shadow-sm sm:size-[82px] md:size-[102px]">
           <img
             src={publicAsset("/home/portfolio.png")}
-            alt="Sandeep Kumar"
+            alt="Sandeep"
             width={102}
             height={102}
             className="h-full w-full object-cover"
@@ -19,10 +19,10 @@ export function HomeHeader() {
         </div>
         <div className="min-w-0 max-w-lg space-y-1 sm:max-w-xl">
           <p className="text-lg font-normal tracking-tight text-foreground sm:text-lg">
-            Sandeep Kumar
+            Sandeep
           </p>
           <p className="text-sm leading-relaxed text-foreground/78 sm:text-sm">
-          Software Engineer - primarily working on data engineering and graph databases. Love spending time engineering AI apps, engaging with open source, and obsessing over good UI/UX.
+            Engineer, Design &amp; Databases - Obsessed over performance &amp; UI/UX
           </p>
         </div>
       </div>

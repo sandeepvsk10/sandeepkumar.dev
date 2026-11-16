@@ -78,7 +78,7 @@ export function HomeEntrance({ children }: { children: ReactNode }) {
           style={{ height: 480 }}
           className="home-entrance-logo"
           onComplete={reveal}
-          aria-label="Sandeep Kumar .sk logo"
+          aria-label="Sandeep .sk logo"
         />
       </Suspense>
       </EntranceBoundary>

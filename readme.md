@@ -1,6 +1,6 @@
 # sandeepkumar.dev
 
-Sandeep Kumar's personal portfolio, built with React, Vite, TypeScript, and Tailwind CSS v4.
+Sandeep's personal portfolio, built with React, Vite, TypeScript, and Tailwind CSS v4.
 
 **Site:** [sandeepkumar.dev](https://sandeepvsk10.github.io/sandeepkumar.dev)
 

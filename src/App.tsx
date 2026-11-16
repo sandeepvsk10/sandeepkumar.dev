@@ -34,7 +34,7 @@ export function App() {
   }, [pathname]);
 
   useEffect(() => {
-    document.title = metadata?.title ?? "Page not found · Sandeep Kumar";
+    document.title = metadata?.title ?? "Page not found · Sandeep";
   }, [metadata]);
 
   return (
