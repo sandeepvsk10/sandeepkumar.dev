@@ -66,7 +66,7 @@ const portfolioItems: PortfolioTile[] = [
     title: "Open Source",
     bg: "bg-amber-200",
     loader: "ripple-echo",
-    url: "#",
+    url: "/open-source",
     height: 550,
   },
   {

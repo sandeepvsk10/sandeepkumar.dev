@@ -1,0 +1,12 @@
+.project-contributions {
+  container-type: inline-size;
+}
+
+.project-contributions-carousel {
+  --contribution-width: min(320px, 85cqi);
+  scrollbar-width: thin;
+}
+
+.project-contributions-carousel > li {
+  width: var(--contribution-width);
+}

@@ -1,0 +1,108 @@
+.oss-construction {
+  --oss-duration: 4s;
+  overflow: visible;
+}
+
+.oss-tangent,
+.oss-circle,
+.oss-cut {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation-duration: var(--oss-duration);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.oss-tangent {
+  stroke: var(--muted-foreground);
+  animation-name: oss-draw-tangent;
+}
+.oss-tangent-right { animation-delay: 100ms; }
+.oss-tangent-bottom { animation-delay: 200ms; }
+.oss-tangent-left { animation-delay: 300ms; }
+.oss-inner-tangent-top { animation-delay: 100ms; }
+.oss-inner-tangent-right { animation-delay: 200ms; }
+.oss-inner-tangent-bottom { animation-delay: 300ms; }
+.oss-inner-tangent-left { animation-delay: 400ms; }
+.oss-circle { animation-name: oss-draw-circle; }
+.oss-cut { animation-name: oss-draw-cut; }
+.oss-cut-right { animation-delay: 100ms; }
+
+.oss-anchors {
+  animation: oss-show-anchors var(--oss-duration) ease both;
+}
+
+.oss-fill-wave {
+  transform-box: view-box;
+  transform-origin: 256px 256px;
+  animation: oss-fill-from-center var(--oss-duration) cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+.oss-open-gap {
+  animation: oss-open-gap var(--oss-duration) ease both;
+}
+
+.oss-avatar {
+  pointer-events: none;
+  transform-box: view-box;
+  transform-origin: 100px 138px;
+  animation: oss-show-avatar 350ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--oss-duration) * 0.96) both;
+}
+
+@keyframes oss-show-avatar {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes oss-draw-tangent {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  3% { opacity: 0.45; }
+  20%, 58% { stroke-dashoffset: 0; opacity: 0.45; }
+  78%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes oss-draw-circle {
+  0%, 23% { stroke-dashoffset: 1; opacity: 0; }
+  24% { opacity: 0.9; }
+  46%, 90% { stroke-dashoffset: 0; opacity: 0.9; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes oss-draw-cut {
+  0%, 54% { stroke-dashoffset: 1; opacity: 0; }
+  55% { opacity: 0.9; }
+  68%, 90% { stroke-dashoffset: 0; opacity: 0.9; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes oss-show-anchors {
+  0%, 20% { opacity: 0; }
+  30%, 60% { opacity: 0.65; }
+  78%, 100% { opacity: 0; }
+}
+
+@keyframes oss-open-gap {
+  0%, 54% { opacity: 0; }
+  70%, 100% { opacity: 1; }
+}
+
+@keyframes oss-fill-from-center {
+  0%, 69% { opacity: 0; transform: scale(0); }
+  72% { opacity: 1; transform: scale(0.12); }
+  96%, 100% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oss-guides,
+  .oss-anchors,
+  .oss-replay { display: none; }
+
+  .oss-construction * { animation: none; }
+
+  .oss-fill-wave,
+  .oss-avatar {
+    opacity: 1;
+    transform: none;
+  }
+}

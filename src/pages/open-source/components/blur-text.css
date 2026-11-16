@@ -1,0 +1,28 @@
+.blur-text {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blur-text-word {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.blur-text-piece {
+  display: inline-block;
+  will-change: transform, filter, opacity;
+}
+
+.blur-text[data-settled="true"] .blur-text-piece {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-text-piece {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+}

@@ -1,0 +1,12 @@
+.open-source-contributions {
+  animation: contributions-fade-in 1.2s ease-out 150ms backwards;
+}
+
+@keyframes contributions-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .open-source-contributions { animation: none; }
+}

@@ -1,27 +1,33 @@
-import { useEffect, type ComponentType, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from "react";
 import { Link, Route, Routes, useLocation } from "react-router";
 
-import Home from "./pages/home";
-import HomeLayout from "./pages/home/layout";
-import Blog from "./pages/blog";
-import BlogLayout from "./pages/blog/layout";
-import RexPost from "./pages/blog/trying-rex-from-superlogical";
-import RexPostLayout from "./pages/blog/trying-rex-from-superlogical/layout";
-import BuildAroundPost from "./pages/blog/build-around-and-find-out";
-import BuildAroundLayout from "./pages/blog/build-around-and-find-out/layout";
-import DevEnv from "./pages/dev-env";
-import DevEnvLayout from "./pages/dev-env/layout";
-import Thamizh from "./pages/thamizh";
-import ThamizhLayout from "./pages/thamizh/layout";
 import routes from "./routes.json";
 
-const pages: Record<string, { Page: ComponentType; Layout: ComponentType<{ children: ReactNode }> }> = {
-  "/": { Page: Home, Layout: HomeLayout },
-  "/blog": { Page: Blog, Layout: BlogLayout },
-  "/blog/build-around-and-find-out": { Page: BuildAroundPost, Layout: BuildAroundLayout },
-  "/blog/trying-rex-from-superlogical": { Page: RexPost, Layout: RexPostLayout },
-  "/dev-env": { Page: DevEnv, Layout: DevEnvLayout },
-  "/thamizh": { Page: Thamizh, Layout: ThamizhLayout },
+function lazySection(
+  loadPage: () => Promise<{ default: ComponentType }>,
+  loadLayout: () => Promise<{ default: ComponentType<{ children: ReactNode }> }>,
+) {
+  return lazy(async () => {
+    // Fetch the page and its layout together, without a nested loading waterfall.
+    const [{ default: Page }, { default: Layout }] = await Promise.all([loadPage(), loadLayout()]);
+    return { default: function Section() { return <Layout><Page /></Layout>; } };
+  });
+}
+
+const pages: Record<string, ComponentType> = {
+  "/": lazySection(() => import("./pages/home"), () => import("./pages/home/layout")),
+  "/blog": lazySection(() => import("./pages/blog"), () => import("./pages/blog/layout")),
+  "/blog/build-around-and-find-out": lazySection(
+    () => import("./pages/blog/build-around-and-find-out"),
+    () => import("./pages/blog/build-around-and-find-out/layout"),
+  ),
+  "/blog/trying-rex-from-superlogical": lazySection(
+    () => import("./pages/blog/trying-rex-from-superlogical"),
+    () => import("./pages/blog/trying-rex-from-superlogical/layout"),
+  ),
+  "/dev-env": lazySection(() => import("./pages/dev-env"), () => import("./pages/dev-env/layout")),
+  "/thamizh": lazySection(() => import("./pages/thamizh"), () => import("./pages/thamizh/layout")),
+  "/open-source": lazySection(() => import("./pages/open-source"), () => import("./pages/open-source/layout")),
 };
 
 export function App() {
@@ -38,11 +44,11 @@ export function App() {
   }, [metadata]);
 
   return (
-    <>
+    <Suspense fallback={<div className="flex-1" role="status" aria-label="Loading page" />}>
       <Routes>
         {routes.map(({ path }) => {
-          const { Page, Layout } = pages[path];
-          return <Route key={path} path={path} element={<Layout><Page /></Layout>} />;
+          const Page = pages[path];
+          return <Route key={path} path={path} element={<Page />} />;
         })}
         <Route path="*" element={
           <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-6 py-16">
@@ -51,6 +57,6 @@ export function App() {
           </main>
         } />
       </Routes>
-    </>
+    </Suspense>
   );
 }

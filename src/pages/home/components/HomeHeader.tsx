@@ -8,7 +8,7 @@ export function HomeHeader() {
       <div className="flex min-w-0 flex-1 flex-row items-start gap-7">
         <div className="relative size-[61px] shrink-0 overflow-hidden rounded-full border border-border bg-muted shadow-sm sm:size-[82px] md:size-[102px]">
           <img
-            src={publicAsset("/home/portfolio.png")}
+            src={publicAsset("/home/portfolio.webp")}
             alt="Sandeep"
             width={102}
             height={102}
