@@ -1,5 +1,8 @@
 import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from "react";
-import { Link, Route, Routes, useLocation } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
+
+import { Butterfly } from "./components/butterfly/butterfly";
+import { HomeLinkFooter } from "./components/home-link-footer";
 
 import routes from "./routes.json";
 
@@ -28,6 +31,8 @@ const pages: Record<string, ComponentType> = {
   "/dev-env": lazySection(() => import("./pages/dev-env"), () => import("./pages/dev-env/layout")),
   "/thamizh": lazySection(() => import("./pages/thamizh"), () => import("./pages/thamizh/layout")),
   "/open-source": lazySection(() => import("./pages/open-source"), () => import("./pages/open-source/layout")),
+  "/mistakes": lazySection(() => import("./pages/mistakes"), () => import("./pages/mistakes/layout")),
+  "/experiments": lazySection(() => import("./pages/experiments"), () => import("./pages/experiments/layout")),
 };
 
 export function App() {
@@ -51,10 +56,13 @@ export function App() {
           return <Route key={path} path={path} element={<Page />} />;
         })}
         <Route path="*" element={
-          <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-6 py-16">
-            <h1 className="text-2xl">Page not found</h1>
-            <Link to="/" className="underline">← home</Link>
-          </main>
+          <div className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col px-6">
+            <main className="flex-1 py-16">
+              <h1 className="text-2xl">Page not found</h1>
+            </main>
+            <HomeLinkFooter />
+            <Butterfly />
+          </div>
         } />
       </Routes>
     </Suspense>

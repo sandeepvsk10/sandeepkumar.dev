@@ -1,7 +1,5 @@
 import { SitePageShell } from "@/components/site-page-shell";
-
-import { BlogFooter } from "./components/blog-footer";
-import { BlogHeader } from "./components/blog-header";
+import { HomeLinkFooter } from "@/components/home-link-footer";
 
 export default function BlogLayout({
   children,
@@ -9,7 +7,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SitePageShell header={<BlogHeader />} footer={<BlogFooter />}>
+    <SitePageShell header={null} footer={<HomeLinkFooter />}>
       {children}
     </SitePageShell>
   );

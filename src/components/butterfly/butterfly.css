@@ -1,0 +1,52 @@
+.site-butterfly {
+  position: absolute;
+  left: -18%;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  aspect-ratio: 1;
+}
+
+.site-butterfly svg {
+  width: clamp(1.75rem, 3vw, 2.375rem);
+}
+
+.site-butterfly[data-phase="landed"] {
+  pointer-events: auto;
+}
+
+.site-butterfly[data-phase="away"] {
+  opacity: 0;
+}
+
+.site-butterfly-wing {
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-butterfly:is([data-phase="arriving"], [data-phase="departing"]) .site-butterfly-wing {
+    animation: site-butterfly-flutter var(--wingbeat, 950ms) ease-in-out infinite;
+  }
+
+  .site-butterfly-wing + .site-butterfly-wing {
+    animation-delay: -21ms;
+  }
+
+  @keyframes site-butterfly-flutter {
+    0%, 100% {
+      transform: scaleX(1);
+    }
+    18% {
+      transform: scaleX(0.32);
+    }
+    35% {
+      transform: scaleX(0.96);
+    }
+    50% {
+      transform: scaleX(0.44);
+    }
+    68% {
+      transform: scaleX(1);
+    }
+  }
+}

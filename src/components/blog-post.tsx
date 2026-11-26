@@ -1,10 +1,21 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 
+import { Butterfly } from "./butterfly/butterfly";
+import { HomeLinkFooter } from "./home-link-footer";
+
 import "./blog-post.css";
 
 export function BlogPostLayout({ children }: { children: ReactNode }) {
-  return <div className="blog-post min-h-screen flex-1 bg-white text-zinc-950">{children}</div>;
+  return (
+    <div className="blog-post relative flex min-h-screen flex-1 flex-col bg-white text-zinc-950">
+      {children}
+      <div className="mx-auto w-full max-w-3xl px-6">
+        <HomeLinkFooter />
+      </div>
+      <Butterfly />
+    </div>
+  );
 }
 
 export function BlogPost({
@@ -19,7 +30,7 @@ export function BlogPost({
   children: ReactNode;
 }) {
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16 sm:py-24">
+    <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16 sm:py-24">
       <article className="flex flex-col gap-10">
         <header className="flex flex-col gap-3">
           <Link to="/blog" className="w-fit text-sm text-zinc-500 hover:text-zinc-950">

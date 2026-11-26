@@ -45,8 +45,6 @@ const portfolioItems: PortfolioTile[] = [
     url: "#",
     height: 600,
     images: [
-      // "/home/gaming/val-chamber-1.avif",
-      // "/home/gaming/val-chamber-2.avif",
       "/home/gaming/val-chamber-3.avif",
       "/home/gaming/val-chamber-4.avif",
       "/home/gaming/fifa-haaland-1.avif",

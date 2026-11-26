@@ -1,6 +1,6 @@
 import { SitePageShell } from "@/components/site-page-shell";
 
-import { OpenSourceFooter } from "./components/open-source-footer";
+import { HomeLinkFooter } from "@/components/home-link-footer";
 import { OpenSourceHeader } from "./components/open-source-header";
 
 export default function OpenSourceLayout({
@@ -9,7 +9,7 @@ export default function OpenSourceLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SitePageShell header={<OpenSourceHeader />} footer={<OpenSourceFooter />}>
+    <SitePageShell header={<OpenSourceHeader />} footer={<HomeLinkFooter />}>
       {children}
     </SitePageShell>
   );

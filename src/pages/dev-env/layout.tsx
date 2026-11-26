@@ -1,7 +1,5 @@
 import { SitePageShell } from "@/components/site-page-shell";
-
-import { DevEnvFooter } from "./components/dev-env-footer";
-import { DevEnvHeader } from "./components/dev-env-header";
+import { HomeLinkFooter } from "@/components/home-link-footer";
 
 export default function DevEnvLayout({
   children,
@@ -9,7 +7,7 @@ export default function DevEnvLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SitePageShell header={<DevEnvHeader />} footer={<DevEnvFooter />}>
+    <SitePageShell header={null} footer={<HomeLinkFooter />}>
       {children}
     </SitePageShell>
   );

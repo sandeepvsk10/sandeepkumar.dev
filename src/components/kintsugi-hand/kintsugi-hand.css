@@ -1,0 +1,26 @@
+.kintsugi-porcelain {
+  filter: grayscale(1) contrast(.62) brightness(1.19);
+}
+
+.kintsugi-gold {
+  filter: saturate(1.65) contrast(.62) brightness(1.19);
+}
+
+.kintsugi-butterfly .site-butterfly {
+  width: clamp(3rem, 5vw, 3.75rem);
+}
+
+.kintsugi-butterfly .site-butterfly svg {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kintsugi-butterfly [data-phase="landed"] .site-butterfly-wing {
+    animation: kintsugi-landing-flap 680ms ease-in-out 120ms 1;
+  }
+
+  @keyframes kintsugi-landing-flap {
+    0%, 100% { transform: scaleX(1); }
+    43% { transform: scaleX(.28); }
+  }
+}

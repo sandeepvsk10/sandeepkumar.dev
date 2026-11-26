@@ -1,7 +1,5 @@
 import { SitePageShell } from "@/components/site-page-shell";
-
-import { ThamizhFooter } from "./components/thamizh-footer";
-import { ThamizhHeader } from "./components/thamizh-header";
+import { HomeLinkFooter } from "@/components/home-link-footer";
 
 export default function ThamizhLayout({
   children,
@@ -9,7 +7,7 @@ export default function ThamizhLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SitePageShell header={<ThamizhHeader />} footer={<ThamizhFooter />}>
+    <SitePageShell header={null} footer={<HomeLinkFooter />}>
       {children}
     </SitePageShell>
   );
