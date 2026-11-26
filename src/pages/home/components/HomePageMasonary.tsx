@@ -76,6 +76,15 @@ const portfolioItems: PortfolioTile[] = [
     height: 550,
   },
   {
+    id: "mistakes",
+    title: "Mistakes",
+    bg: "bg-amber-100",
+    loader: "diagonal-snake",
+    url: "/mistakes",
+    height: 520,
+    images: ["/home/mistakes/kintsugi.webp"],
+  },
+  {
     id: "dev-env",
     title: "Dev Env",
     bg: "bg-indigo-200",

@@ -16,7 +16,7 @@ export default function MistakesLayout({
           <p className="text-base leading-relaxed text-muted-foreground">
             Some weights, regrets and ghosts of yesterday
             <br />
-            Rest assured, a damn good journey
+            along my career &amp; life
           </p>
         </header>
       }

@@ -23,6 +23,7 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
   const gradientId = useId();
   const wingId = useId();
   const landingAreaRef = useRef<HTMLDivElement>(null);
+  const perchRef = useRef<HTMLSpanElement>(null);
   const flightLayerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const lastLanding = useRef<ReturnType<typeof pickLanding> | null>(null);
@@ -34,14 +35,33 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
     const flightLayer = flightLayerRef.current;
     if (!button || !landingArea || !flightLayer || phase === "landed") return;
 
-    if (phase === "preparing") {
-      const frame = window.requestAnimationFrame(() => setPhase("arriving"));
-      return () => window.cancelAnimationFrame(frame);
-    }
+    if (phase === "preparing" || phase === "away") {
+      const target = perchRef.current;
+      let frame = 0;
+      let observer: IntersectionObserver | undefined;
 
-    if (phase === "away") {
-      const timer = window.setTimeout(() => setPhase("arriving"), 4000);
-      return () => window.clearTimeout(timer);
+      const arriveWhenVisible = () => {
+        if (!target || typeof IntersectionObserver !== "function") {
+          frame = window.requestAnimationFrame(() => setPhase("arriving"));
+          return;
+        }
+
+        // A fixed perch can start below the fold while the viewport flight is already visible.
+        observer = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          observer?.disconnect();
+          setPhase("arriving");
+        }, { rootMargin: "-48px 0px" });
+        observer.observe(target);
+      };
+
+      const timer = phase === "away" ? window.setTimeout(arriveWhenVisible, 4000) : undefined;
+      if (phase === "preparing") arriveWhenVisible();
+      return () => {
+        window.clearTimeout(timer);
+        window.cancelAnimationFrame(frame);
+        observer?.disconnect();
+      };
     }
 
     const areaBounds = landingArea.getBoundingClientRect();
@@ -61,6 +81,13 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
     if (!start) return;
 
     const finishFlight = () => {
+      if (perch && landing && typeof IntersectionObserver === "function") {
+        const target = projectPose(perch, landingArea.getBoundingClientRect(), flightLayer.getBoundingClientRect());
+        if (target.x < 0 || target.x > 100 || target.y < 0 || target.y > 100) {
+          setPhase("preparing");
+          return;
+        }
+      }
       Object.assign(button.style, poseFrame(landing?.pose ?? end));
       if (landing) {
         lastLanding.current = landing;
@@ -127,6 +154,10 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
 
   return (
     <div ref={landingAreaRef} className={`pointer-events-none absolute z-20 ${landingClassName}`}>
+      {perch && (
+        <span ref={perchRef} aria-hidden="true" className="absolute size-px"
+          style={{ left: `${perch.x}%`, top: `${perch.y}%` }} />
+      )}
       <div ref={flightLayerRef} className={phase === "landed" ? "absolute inset-0" : "fixed inset-0 overflow-clip"}>
         <button
           ref={buttonRef}
