@@ -1,0 +1,96 @@
+/* A polished, mirror-smooth platter: soft silver reflections fanning around the spindle, a rainbow
+   sheen where the light catches it (like a disc's diffraction), and a clean hub. No drop shadow or dark
+   rim, and no track texture, so every gradient stays smooth. */
+.databases-platter {
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    /* Gentle falloff toward the edge for depth. */
+    radial-gradient(circle, transparent 62%, rgb(0 0 0 / 0.07) 100%),
+    /* Silver reflections: two broad bright sweeps opposite each other, with many soft stops so the
+       transitions stay smooth; one is turned into the visible upper half. */
+    conic-gradient(
+      from 285deg,
+      #8d9299 0deg,
+      #b4b8be 22deg,
+      #dfe2e6 42deg,
+      #f8f9fa 58deg,
+      #e4e7ea 72deg,
+      #b9bdc3 94deg,
+      #8f949b 125deg,
+      #a2a7ad 165deg,
+      #cfd3d7 200deg,
+      #f4f5f7 228deg,
+      #fdfdfe 240deg,
+      #dde0e4 256deg,
+      #a9aeb4 285deg,
+      #8b9097 320deg,
+      #8d9299 360deg
+    );
+  box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.55);
+}
+
+/* Rainbow sheen alongside each bright sweep, softly blurred and kept off the hub and the rim. */
+.databases-platter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 285deg,
+    transparent 0deg,
+    transparent 22deg,
+    hsl(195 100% 62%) 36deg,
+    hsl(140 85% 58%) 48deg,
+    hsl(55 100% 60%) 60deg,
+    hsl(20 100% 62%) 72deg,
+    hsl(320 85% 66%) 86deg,
+    transparent 104deg,
+    transparent 202deg,
+    hsl(195 100% 62%) 216deg,
+    hsl(140 85% 58%) 228deg,
+    hsl(55 100% 60%) 240deg,
+    hsl(20 100% 62%) 252deg,
+    hsl(320 85% 66%) 266deg,
+    transparent 284deg,
+    transparent 360deg
+  );
+  mask-image: radial-gradient(circle, transparent 20%, black 34%, black 88%, transparent 99%);
+  opacity: 0.5;
+  filter: blur(1.5px);
+}
+
+/* Spindle and clamp ring, drawn crisp above the sheen. */
+.databases-platter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle,
+    #2a2d32 0 6.5%,
+    #f1f3f5 7.2% 10.5%,
+    #a3a8ae 11.2% 12.6%,
+    #dadde1 13.3% 16.4%,
+    rgb(120 126 134 / 0.6) 17% 17.6%,
+    transparent 18.2%
+  );
+}
+
+/* Slonik stays hidden until the platter has risen, then rises into view over it. */
+.databases-elephant {
+  opacity: 0;
+  transform: translateY(1.05em);
+  transition: transform 500ms cubic-bezier(.2, .8, .2, 1), opacity 200ms ease-out;
+}
+
+:where(.group\/intro:hover) .databases-elephant {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 350ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .databases-elephant { transition: none; }
+  :where(.group\/intro:hover) .databases-elephant { transition-delay: 0ms; }
+}

@@ -39,20 +39,28 @@ interface MasonryProps<T extends MasonryItem> {
 
 const useMeasure = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const [layout, setLayout] = useState({ width: 0, columns: 1, gutter: 0, referenceWidthScale: 1 });
 
   useLayoutEffect(() => {
     if (!ref.current) return;
     const ro = new ResizeObserver(([entry]) => {
       const nextWidth = entry.contentRect.width;
       // Hidden tabs can briefly report zero; keep the last usable layout.
-      if (nextWidth > 0) setWidth(nextWidth);
+      if (nextWidth <= 0) return;
+      const styles = getComputedStyle(entry.target);
+      const preferredColumns = Number(styles.getPropertyValue("--masonry-columns"));
+      const columns = preferredColumns > 0
+        ? preferredColumns
+        : nextWidth >= 540 ? 3 : nextWidth >= 440 ? 2 : 1;
+      const gutter = Number.parseFloat(styles.getPropertyValue("--masonry-tile-gutter")) || 0;
+      const referenceWidthScale = Number(styles.getPropertyValue("--masonry-reference-width-scale")) || 1;
+      setLayout({ width: nextWidth, columns, gutter, referenceWidthScale });
     });
     ro.observe(ref.current);
     return () => ro.disconnect();
   }, []);
 
-  return [ref, width] as const;
+  return [ref, layout] as const;
 };
 
 export function Masonry<T extends MasonryItem>({
@@ -68,8 +76,7 @@ export function Masonry<T extends MasonryItem>({
 }: MasonryProps<T>) {
   const navigate = useNavigate();
 
-  const [containerRef, width] = useMeasure();
-  const columns = width >= 540 ? 3 : width >= 440 ? 2 : 1;
+  const [containerRef, { width, columns, gutter, referenceWidthScale }] = useMeasure();
 
   const getInitialPosition = (item: GridItem) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -106,18 +113,21 @@ export function Masonry<T extends MasonryItem>({
 
     const colHeights = new Array(columns).fill(0);
     const columnWidth = width / columns;
+    const referenceWidth = columnWidth * referenceWidthScale;
+    // Preserve the visible tile's proportions while keeping the gutter fixed.
+    const heightScale = referenceWidth > gutter ? (columnWidth - gutter) / (referenceWidth - gutter) : 1;
 
     return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      const height = child.height * 0.4;
+      const height = gutter + (child.height * 0.4 - gutter) * heightScale;
       const y = colHeights[col];
 
       colHeights[col] += height;
 
       return { ...child, x, y, w: columnWidth, h: height };
     });
-  }, [columns, items, width]);
+  }, [columns, gutter, items, referenceWidthScale, width]);
 
   const containerHeight = useMemo(() => {
     if (grid.length === 0) return 0;

@@ -14,14 +14,14 @@ const versions = [
 const BASE_SIZE = 40;
 
 interface ClaudeMascotProps {
-  /** Rendered width/height of each animation in pixels. */
+  /** Default animation size in pixels. CSS can override it with --claude-mascot-size. */
   size?: number;
   className?: string;
 }
 
 /** Plays the Claude mascot animations one after another on a loop. */
 export function ClaudeMascot({ size = BASE_SIZE, className = "h-8 w-10" }: ClaudeMascotProps) {
-  const scale = size / BASE_SIZE;
+  const animationSize = `var(--claude-mascot-size, ${size}px)`;
 
   const [index, setIndex] = useState(0);
 
@@ -56,9 +56,9 @@ export function ClaudeMascot({ size = BASE_SIZE, className = "h-8 w-10" }: Claud
         height={size}
         className="absolute left-1/2 top-1/2 max-w-none object-contain"
         style={{
-          width: size,
-          height: size,
-          transform: `translate(-50%, -50%) translateY(${versions[index].offset * scale}px)`,
+          width: animationSize,
+          height: animationSize,
+          transform: `translate(-50%, -50%) translateY(calc(${animationSize} * ${versions[index].offset / BASE_SIZE}))`,
         }}
       />
     </span>

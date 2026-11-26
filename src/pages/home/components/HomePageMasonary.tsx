@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { Link } from "react-router";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 import { ClaudeMascot } from "@/components/claude-mascot";
 import { Masonry, MasonryItem } from "@/components/core/masonry";
 import { TextScramble } from "@/components/core/text-scramble";
+import { BLOG_POSTS } from "@/lib/blog-posts";
+import { RiseIn } from "@/components/rise-in";
+import { KintsugiProjectCard } from "@/components/kintsugi-project-card";
 import {
   PortfolioDotMatrix,
   type DotMatrixVariant,
@@ -14,7 +20,6 @@ interface PortfolioTile extends MasonryItem {
   title: string;
   bg: string;
   loader: DotMatrixVariant;
-  lang?: string;
   images?: string[];
   /** Show the looping Claude mascot animations in the tile. */
   mascot?: boolean;
@@ -22,38 +27,18 @@ interface PortfolioTile extends MasonryItem {
 
 const portfolioItems: PortfolioTile[] = [
   {
-    id: "engineering",
-    title: "Engineering",
-    bg: "bg-emerald-200",
-    loader: "outer-ring",
-    url: "#",
-    height: 500,
-  },
-  {
-    id: "building",
-    title: "Building",
-    bg: "bg-violet-200",
-    loader: "center-ripple",
-    url: "#",
-    height: 560,
-  },
-  {
     id: "gaming",
     title: "Gaming",
     bg: "bg-blue-200",
     loader: "spiral",
     url: "#",
     height: 600,
-    images: [
-      "/home/gaming/val-chamber-3.avif",
-      "/home/gaming/val-chamber-4.avif",
-      "/home/gaming/fifa-haaland-1.avif",
-    ],
+    images: ["/home/gaming/val-chamber-4.avif"],
   },
   {
     id: "ai",
     title: "AI",
-    bg: "bg-orange-200",
+    bg: "bg-amber-200",
     loader: "middle-ring",
     url: "#",
     height: 550,
@@ -62,7 +47,7 @@ const portfolioItems: PortfolioTile[] = [
   {
     id: "open-source",
     title: "Open Source",
-    bg: "bg-amber-200",
+    bg: "bg-violet-200",
     loader: "ripple-echo",
     url: "/open-source",
     height: 550,
@@ -84,32 +69,22 @@ const portfolioItems: PortfolioTile[] = [
     height: 520,
     images: ["/home/mistakes/kintsugi.webp"],
   },
-  {
-    id: "dev-env",
-    title: "Dev Env",
-    bg: "bg-indigo-200",
-    loader: "diagonal-snake",
-    url: "/dev-env",
-    height: 480,
-  },
-  {
-    id: "thamizh",
-    title: "தமிழ்",
-    lang: "ta",
-    bg: "bg-teal-200",
-    loader: "spiral",
-    url: "/thamizh",
-    height: 540,
-  },
 ];
 
-function PortfolioTileContent({ item }: { item: PortfolioTile }) {
+function PortfolioTileContent({ item, width }: { item: PortfolioTile; width: number }) {
   const [trigger, setTrigger] = useState(false);
   const hasImages = Boolean(item.images?.length);
+  const matrixSize = Math.min(22, Math.max(14, width * 0.12));
+  const dotSize = 2.5 * matrixSize / 22;
+  const dotGap = Math.max(1, Math.floor((matrixSize - 5 * dotSize) / 4));
+  // The AI animation lights only the middle three rows and columns of the matrix.
+  const matrixScale = item.loader === "middle-ring"
+    ? 1
+    : (3 * dotSize + 2 * dotGap) / (5 * dotSize + 4 * dotGap);
 
   return (
     <div
-      className="group relative flex h-full flex-col gap-4 rounded-2xl p-5 shadow-sm ring-1 ring-black/5"
+      className="group relative flex h-full flex-col gap-4 rounded-2xl p-5 shadow-sm ring-1 ring-black/5 lg:@container lg:p-3"
       onMouseEnter={() => setTrigger(true)}
     >
       <div
@@ -120,19 +95,20 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
       {item.mascot && (
         <div
           aria-hidden
-          className="pointer-events-none absolute right-5 top-5"
+          className="pointer-events-none absolute right-5 top-5 lg:right-3 lg:top-3"
         >
-          <ClaudeMascot size={88} className="block size-22" />
+          <ClaudeMascot
+            size={88}
+            className="block size-22 lg:size-[var(--claude-mascot-size)] lg:[--claude-mascot-size:clamp(2rem,36cqi,2.75rem)]"
+          />
         </div>
       )}
-      <div
-        className={`relative z-10 flex flex-col gap-4 ${hasImages || item.mascot ? "mt-auto" : ""}`}
-      >
-        <span aria-hidden className="inline-flex shrink-0">
+      <div className="relative z-10 mt-auto flex flex-col gap-4 lg:gap-2">
+        <span aria-hidden className="inline-flex w-fit shrink-0" style={{ scale: matrixScale }}>
           <PortfolioDotMatrix
             variant={item.loader}
-            size={22}
-            dotSize={2.5}
+            size={matrixSize}
+            dotSize={dotSize}
             color={hasImages ? "#ffffff" : "#000000"}
             speed={0.65}
             animated
@@ -140,10 +116,9 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
         </span>
         <div className="flex flex-col gap-1">
           <h3
-            className={`text-base font-normal tracking-tight sm:text-lg ${
+            className={`text-base font-normal tracking-tight sm:text-lg lg:text-[length:clamp(0.8125rem,11cqi,0.9375rem)] lg:leading-tight ${
               hasImages ? "text-white" : "text-zinc-800"
             }`}
-            lang={item.lang}
           >
             <TextScramble
               speed={0.004}
@@ -155,7 +130,7 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
           </h3>
           {(!item.url || item.url === "#") && (
             <p
-              className={`text-xs font-normal tracking-tight sm:text-sm ${
+              className={`text-xs font-normal tracking-tight sm:text-sm lg:text-[length:clamp(0.6875rem,9cqi,0.75rem)] lg:leading-tight ${
                 hasImages ? "text-white/80" : "text-zinc-600/90"
               }`}
             >
@@ -168,11 +143,37 @@ function PortfolioTileContent({ item }: { item: PortfolioTile }) {
   );
 }
 
+/** Fade article titles in one after another, each followed by its category, like the header bio. */
+const articleFadeDelay = (index: number) => 250 + index * 150;
+
+/** Section heading that opens the section's own page, marked with a small diagonal arrow. */
+function SectionLink({ to, children }: { to: string; children: ReactNode }) {
+  return (
+    <Link
+      to={to}
+      className="group inline-flex items-center gap-1 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+    >
+      {children}
+      <HugeiconsIcon
+        icon={ArrowUpRight01Icon}
+        size={16}
+        strokeWidth={1.7}
+        aria-hidden="true"
+        className="shrink-0 text-muted-foreground transition-[translate,color] group-hover:text-foreground motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+      />
+    </Link>
+  );
+}
+
 export function HomePageMasonary() {
+  const sectionDivider =
+    "relative min-w-0 before:pointer-events-none before:absolute before:inset-x-0 before:-top-4 before:h-px before:bg-linear-to-r before:from-transparent before:via-border before:to-transparent " +
+    "lg:before:inset-x-auto lg:before:inset-y-0 lg:before:-left-4 lg:before:h-auto lg:before:w-px lg:before:bg-linear-to-b";
+
   return (
     <section className="relative w-full py-10">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="relative flex min-w-0 flex-col">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        <div className="relative flex min-w-0 flex-col lg:[--masonry-columns:3] lg:[--masonry-reference-width-scale:1.5]">
           <h2 className="mb-6 flex min-h-7 items-center font-terminal text-md font-normal tracking-tight text-foreground">
             hello@sandeepkumar.dev ~ % ls
           </h2>
@@ -185,20 +186,75 @@ export function HomePageMasonary() {
             scaleOnHover={true}
             hoverScale={0.98}
             blurToFocus={true}
-            renderItem={(item) => <PortfolioTileContent item={item} />}
+            renderItem={(item) => <PortfolioTileContent item={item} width={item.w} />}
           />
+          <div className="mt-6 flex min-h-7 items-center">
+            <SectionLink to="/crafts">Crafts</SectionLink>
+          </div>
         </div>
-        <div className="flex min-w-0 flex-col">
-          <h2
-            id="currently-building-title"
-            className="mb-6 flex min-h-7 items-center font-sans text-xl font-normal tracking-tight text-foreground"
-          >
-            Currently building
-          </h2>
-          <aside
-            aria-labelledby="currently-building-title"
-            className="min-h-[360px] flex-1 rounded-2xl border border-border/60 lg:min-h-[600px]"
-          />
+        <div className="grid min-h-[412px] min-w-0 auto-rows-fr gap-8 lg:min-h-[652px] lg:grid-cols-2">
+          <section aria-labelledby="currently-building-title" className={sectionDivider}>
+            <h2
+              id="currently-building-title"
+              className="mb-6 flex min-h-7 items-center font-sans text-xl font-normal tracking-tight text-foreground"
+            >
+              <SectionLink to="/building">Currently building</SectionLink>
+            </h2>
+            {/* Rise in right after the masonry tiles' staggered entrance. */}
+            <RiseIn delay={portfolioItems.length * 0.05}>
+              <KintsugiProjectCard />
+            </RiseIn>
+          </section>
+          <section aria-labelledby="writing-title" className={sectionDivider}>
+            <h2
+              id="writing-title"
+              className="mb-6 flex min-h-7 items-center font-sans text-xl font-normal tracking-tight text-foreground"
+            >
+              <SectionLink to="/blog">Writing</SectionLink>
+            </h2>
+            <ol className="flex flex-col">
+              {BLOG_POSTS.map(({ title, category, url }, index) => (
+                <li key={url} className="border-b border-border/60 first:border-t">
+                  <Link
+                    to={url}
+                    className="group grid grid-cols-[auto_minmax(0,1fr)_auto] gap-x-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+                  >
+                    {/* The 40px box clips the number's base at the divider, so it reads as submerged; its cap line
+                        sits level with the title, which shares the same 40px height with the category. */}
+                    <span
+                      aria-hidden="true"
+                      className="mt-3 h-10 overflow-hidden text-[4rem] font-semibold tracking-tighter tabular-nums text-foreground"
+                    >
+                      <span className="block leading-[0.8] transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-[0.06em]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </span>
+                    <span className="flex min-w-0 flex-col gap-1 pt-2.5">
+                      <span
+                        className="text-sm leading-5 font-medium text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:fill-mode-both motion-safe:duration-500"
+                        style={{ animationDelay: `${articleFadeDelay(index)}ms` }}
+                      >
+                        {title}
+                      </span>
+                      <span
+                        className="text-xs leading-4 text-muted-foreground transition-colors group-hover:text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:fill-mode-both motion-safe:duration-500"
+                        style={{ animationDelay: `${articleFadeDelay(index) + 150}ms` }}
+                      >
+                        {category}
+                      </span>
+                    </span>
+                    <HugeiconsIcon
+                      icon={ArrowUpRight01Icon}
+                      size={15}
+                      strokeWidth={1.7}
+                      aria-hidden="true"
+                      className="mt-3.5 shrink-0 text-muted-foreground transition-[translate,color] group-hover:text-foreground motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
       </div>
     </section>

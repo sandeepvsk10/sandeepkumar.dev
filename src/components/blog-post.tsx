@@ -8,7 +8,7 @@ import "./blog-post.css";
 
 export function BlogPostLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="blog-post relative flex min-h-screen flex-1 flex-col bg-white text-zinc-950">
+    <div className="blog-post relative flex min-h-screen flex-1 flex-col bg-background text-foreground">
       {children}
       <div className="mx-auto w-full max-w-3xl px-6">
         <HomeLinkFooter />
@@ -33,14 +33,14 @@ export function BlogPost({
     <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16 sm:py-24">
       <article className="flex flex-col gap-10">
         <header className="flex flex-col gap-3">
-          <Link to="/blog" className="w-fit text-sm text-zinc-500 hover:text-zinc-950">
+          <Link to="/blog" className="w-fit text-sm text-muted-foreground hover:text-foreground">
             ← blog
           </Link>
-          <p className="flex min-h-11 items-center gap-2 text-xl font-light tracking-tight text-zinc-500 sm:text-2xl">
+          <p className="flex min-h-11 items-center gap-2 text-xl font-light tracking-tight text-muted-foreground sm:text-2xl">
             <span>{category}</span>
             <span className="blog-category-icon inline-flex h-11 shrink-0 items-center">{icon}</span>
           </p>
-          <h1 className="text-3xl font-normal tracking-tight text-zinc-950 sm:text-4xl">
+          <h1 className="text-3xl font-normal tracking-tight text-foreground sm:text-4xl">
             {title}
           </h1>
         </header>

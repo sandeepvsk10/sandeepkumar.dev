@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
 import { flightFrames, offscreenPose, pickLanding, poseFrame, projectPose, randomBetween } from "./butterfly-flight";
 import type { ButterflyPose } from "./butterfly-flight";
@@ -26,6 +26,7 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
   const perchRef = useRef<HTMLSpanElement>(null);
   const flightLayerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const escapeSide = useRef<"left" | "right" | undefined>(undefined);
   const lastLanding = useRef<ReturnType<typeof pickLanding> | null>(null);
   const [phase, setPhase] = useState<FlightPhase>("preparing");
 
@@ -72,13 +73,15 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
       ? (perch ? { index: 0, pose: perch } : pickLanding(lastLanding.current?.index ?? -1, areaBounds, viewport))
       : null;
 
-    const edge = offscreenPose();
+    const edge = offscreenPose(landing ? undefined : escapeSide.current);
     const previousPose = lastLanding.current?.pose;
     const start = landing
       ? { ...edge, angle: -edge.angle }
       : previousPose && projectPose(previousPose, areaBounds, viewport);
-    const end = landing ? projectPose(landing.pose, areaBounds, viewport) : edge;
     if (!start) return;
+    const end = landing
+      ? projectPose(landing.pose, areaBounds, viewport)
+      : { ...edge, y: Math.max(4, Math.min(86, start.y - randomBetween(8, 18))) };
 
     const finishFlight = () => {
       if (perch && landing && typeof IntersectionObserver === "function") {
@@ -107,8 +110,9 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
     const distance = Math.hypot(end.x - start.x, (end.y - start.y) / aspectRatio);
     const duration = landing
       ? Math.min(8500, 4750 + distance * 30 + randomBetween(0, 450))
-      : Math.min(5350, 1950 + distance * 25 + randomBetween(0, 350));
-    const frames = flightFrames(start, end, Boolean(landing), aspectRatio);
+      : Math.min(5200, 1800 + distance * 24 + randomBetween(0, 300));
+    const takeoffRise = Math.min(2000 / viewport.height, Math.max(0, start.y - 3));
+    const frames = flightFrames(start, end, Boolean(landing), aspectRatio, takeoffRise);
     const flight = button.animate(frames, {
       duration,
       fill: "both",
@@ -148,8 +152,40 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
     };
   }, [phase, perch, onLand]);
 
-  function takeOff() {
-    setPhase((current) => current === "landed" ? "departing" : current);
+  // While perched, open and close the wings slowly at irregular intervals, like a resting butterfly.
+  useEffect(() => {
+    const button = buttonRef.current;
+    if (phase !== "landed" || !button || typeof button.animate !== "function") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const wings = Array.from(button.querySelectorAll<SVGGElement>(".site-butterfly-wing"));
+    let timer = 0;
+    let flaps: Animation[] = [];
+
+    const flap = () => {
+      const beats = Math.random() < 0.3 ? 2 : 1;
+      const fold = randomBetween(0.3, 0.65);
+      const keyframes = Array.from({ length: beats }, () => [
+        { transform: "scaleX(1)", easing: "ease-in-out" },
+        { transform: `scaleX(${fold})`, easing: "ease-in-out" },
+      ]).flat();
+      keyframes.push({ transform: "scaleX(1)", easing: "ease-in-out" });
+      const duration = beats * randomBetween(1100, 1900);
+      flaps = wings.map((wing, index) => wing.animate(keyframes, { duration, delay: index * 18 }));
+      timer = window.setTimeout(flap, duration + randomBetween(1400, 5200));
+    };
+
+    timer = window.setTimeout(flap, randomBetween(700, 2200));
+    return () => {
+      window.clearTimeout(timer);
+      flaps.forEach((animation) => animation.cancel());
+    };
+  }, [phase]);
+
+  function takeOff(side?: "left" | "right") {
+    if (phase !== "landed") return;
+    escapeSide.current = side;
+    setPhase("departing");
   }
 
   return (
@@ -168,9 +204,11 @@ export function Butterfly({ landingClassName = "inset-0", perch, onLand, color =
           className="site-butterfly rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
           data-phase={phase}
           onPointerMove={(event) => {
-            if (event.pointerType === "mouse" || event.pointerType === "pen") takeOff();
+            if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
+            const bounds = event.currentTarget.getBoundingClientRect();
+            takeOff(event.clientX < bounds.left + bounds.width / 2 ? "right" : "left");
           }}
-          onClick={takeOff}
+          onClick={() => takeOff()}
         >
           <svg aria-hidden="true" viewBox="0 0 80 66" focusable="false">
             <defs>

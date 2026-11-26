@@ -33,6 +33,8 @@ const pages: Record<string, ComponentType> = {
   "/open-source": lazySection(() => import("./pages/open-source"), () => import("./pages/open-source/layout")),
   "/mistakes": lazySection(() => import("./pages/mistakes"), () => import("./pages/mistakes/layout")),
   "/experiments": lazySection(() => import("./pages/experiments"), () => import("./pages/experiments/layout")),
+  "/building": lazySection(() => import("./pages/building"), () => import("./pages/building/layout")),
+  "/crafts": lazySection(() => import("./pages/crafts"), () => import("./pages/crafts/layout")),
 };
 
 export function App() {

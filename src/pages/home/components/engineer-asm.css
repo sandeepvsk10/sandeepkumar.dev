@@ -1,0 +1,67 @@
+/* Special Elite: an inked typewriter face for the instructions. It ships in one weight (400), so the
+   chips use it unbolded. Loaded only with the home header. */
+@import "@fontsource/special-elite/latin-400.css";
+
+.engineer-asm-line {
+  font-family: "Special Elite", var(--font-mono);
+}
+
+/* Odometer roll: the whole instruction line rolls up out of view, fading as it goes, while the next one
+   rolls up into place from below, fading in. */
+@keyframes engineer-asm-in {
+  from { opacity: 0; transform: translateY(70%); filter: blur(1.5px); }
+}
+
+@keyframes engineer-asm-out {
+  to { opacity: 0; transform: translateY(-70%); filter: blur(1.5px); }
+}
+
+.engineer-asm-in {
+  animation: engineer-asm-in var(--asm-fade) cubic-bezier(.3, .7, .2, 1) both;
+}
+
+.engineer-asm-out {
+  animation: engineer-asm-out var(--asm-fade) cubic-bezier(.3, .7, .2, 1) both;
+}
+
+/* The words only fade (no roll): transforms would need inline-block, which would change how they wrap. */
+.engineer-asm-words {
+  transition: opacity var(--asm-fade) ease-in-out, filter var(--asm-fade) ease-in-out;
+}
+
+.engineer-asm-words[data-hidden] {
+  opacity: 0;
+  filter: blur(1.5px);
+}
+
+.engineer-asm-rule {
+  transition: width var(--asm-fade) ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .engineer-asm-rule { transition: none; }
+  .engineer-asm-in, .engineer-asm-words { animation: none; transition: none; }
+  .engineer-asm-out { display: none; }
+}
+
+/* Mnemonic chip styled after Apple silicon's M4 tile: dark glass lit by a teal glow from the lower left,
+   with no edge line. Fixed colours so it reads the same in light and dark mode. */
+.engineer-asm-chip {
+  color: #f4fffb;
+  background:
+    radial-gradient(130% 150% at 0% 100%, rgb(96 236 196 / 0.9) 0%, rgb(34 140 126 / 0.55) 32%, transparent 64%),
+    linear-gradient(140deg, #34383f 0%, #16181c 55%, #0b0c0e 100%);
+  box-shadow: 0 0 6px rgb(80 230 190 / 0.25);
+  text-shadow: 0 0 6px rgb(255 255 255 / 0.25);
+}
+
+/* Instruction mnemonics: a soft rose pill with deep wine text, inverted to a dark wine pill in dark mode. */
+.engineer-asm-op {
+  color: #6b1024;
+  background: #f7e4e8;
+}
+
+:where(.dark) .engineer-asm-op {
+  color: #f6c9d2;
+  background: #3d131c;
+}

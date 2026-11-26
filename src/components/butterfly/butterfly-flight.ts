@@ -46,8 +46,8 @@ export function pickLanding(previousIndex: number, area: Bounds, viewport: Bound
   return { index, pose: projectPose(pose, region, area) };
 }
 
-export function offscreenPose() {
-  const left = Math.random() < 0.5;
+export function offscreenPose(side?: "left" | "right") {
+  const left = side ? side === "left" : Math.random() < 0.5;
   return { x: left ? -18 : 118, y: randomBetween(17, 76), angle: left ? -62 : 62 };
 }
 
@@ -65,7 +65,7 @@ function lerp(start: number, end: number, t: number) {
 
 const turn = 2 * Math.PI;
 
-export function flightFrames(start: ButterflyPose, end: ButterflyPose, landing: boolean, aspectRatio: number) {
+export function flightFrames(start: ButterflyPose, end: ButterflyPose, landing: boolean, aspectRatio: number, takeoffRise = 0) {
   const direction = Math.sign(end.x - start.x);
   const lift = randomBetween(7, 15);
   const swell = randomBetween(12, 21);
@@ -99,8 +99,10 @@ export function flightFrames(start: ButterflyPose, end: ButterflyPose, landing: 
 
     const time = step / samples;
     const glide = time + pace * (Math.sin(turn * time + pacePhase) - Math.sin(pacePhase)) / turn;
-    const t = landing ? 1 - (1 - glide) ** 2 : glide ** 1.65;
+    const t = landing ? 1 - (1 - glide) ** 2 : glide + 0.8 * glide * (1 - glide) ** 4;
     const position = positionAt(t);
+    // Push off quickly, then let the extra lift decay into the regular flight path.
+    const startle = landing ? 0 : (1 - Math.exp(-14 * time)) * (1 - time) ** 6;
     const before = positionAt(Math.max(0, t - 0.012));
     const after = positionAt(Math.min(1, t + 0.012));
     const climb = Math.atan2(before.y - after.y, Math.abs(after.x - before.x) * aspectRatio) * 180 / Math.PI;
@@ -108,6 +110,6 @@ export function flightFrames(start: ButterflyPose, end: ButterflyPose, landing: 
     const blend = Math.min(1, t * 6, (1 - t) * 6);
     const angle = lerp(lerp(start.angle, end.angle, t), bank, blend ** 2 * (3 - 2 * blend));
 
-    return poseFrame({ ...position, angle });
+    return poseFrame({ ...position, y: position.y - takeoffRise * startle, angle: angle - direction * 22 * startle });
   });
 }

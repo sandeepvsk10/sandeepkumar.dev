@@ -1,12 +1,21 @@
 .masonry-list {
+  --masonry-tile-gutter: 12px;
   position: relative;
   width: 100%;
+}
+
+@media (min-width: 64rem) {
+  .masonry-list {
+    /* Keep the gaps between tiles while lining up the outer edges with neighboring sections. */
+    margin: calc(var(--masonry-tile-gutter) / -2);
+    width: calc(100% + var(--masonry-tile-gutter));
+  }
 }
 
 .masonry-item-wrapper {
   position: absolute;
   will-change: transform, width, height, opacity;
-  padding: 6px;
+  padding: calc(var(--masonry-tile-gutter) / 2);
   cursor: pointer;
   top: 0;
   left: 0;

@@ -3,8 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%sk.svg" />
-    <link rel="apple-touch-icon" href="%BASE_URL%sk.svg" />
+    <link id="site-favicon" rel="icon" type="image/svg+xml" href="%BASE_URL%favicon-light.svg"
+      data-light="%BASE_URL%favicon-light.svg" data-dark="%BASE_URL%favicon-dark.svg" />
+    <script>
+      {
+        let theme;
+        try {
+          theme = localStorage.getItem("portfolio-theme");
+        } catch {
+          // The theme still works when storage is disabled.
+        }
+        // Dark is the default; only an explicit choice of light opts out.
+        const dark = theme !== "light";
+        document.documentElement.classList.toggle("dark", dark);
+        if (dark) {
+          const favicon = document.getElementById("site-favicon");
+          favicon.href = favicon.dataset.dark;
+        }
+      }
+    </script>
+    <link rel="apple-touch-icon" href="%BASE_URL%favicon-light.svg" />
     <link rel="stylesheet" href="/cursors/site-cursor.css" />
     <title>Sandeep</title>
   </head>

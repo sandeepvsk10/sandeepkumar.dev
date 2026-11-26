@@ -32,6 +32,24 @@
     animation-delay: -21ms;
   }
 
+  .site-butterfly[data-phase="departing"] .site-butterfly-wing {
+    animation: site-butterfly-startle 600ms ease-in-out both,
+      site-butterfly-flutter var(--wingbeat, 950ms) ease-in-out 600ms infinite;
+  }
+
+  .site-butterfly[data-phase="departing"] .site-butterfly-wing + .site-butterfly-wing {
+    animation-delay: 14ms, 614ms;
+  }
+
+  @keyframes site-butterfly-startle {
+    0%, 100% { transform: scaleX(1); }
+    15% { transform: scaleX(.2); }
+    33% { transform: scaleX(.98); }
+    49% { transform: scaleX(.27); }
+    68% { transform: scaleX(.96); }
+    83% { transform: scaleX(.49); }
+  }
+
   @keyframes site-butterfly-flutter {
     0%, 100% {
       transform: scaleX(1);

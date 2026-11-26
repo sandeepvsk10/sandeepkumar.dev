@@ -10,9 +10,12 @@
   opacity: 0;
 }
 
-/* Keep the favicon black on white regardless of the system color scheme. */
 .home-entrance .liquid-glass-logo-fallback > img {
   filter: brightness(0);
+}
+
+.dark .home-entrance .liquid-glass-logo-fallback > img {
+  filter: brightness(0) invert(1);
 }
 
 @media (prefers-reduced-motion: reduce) {

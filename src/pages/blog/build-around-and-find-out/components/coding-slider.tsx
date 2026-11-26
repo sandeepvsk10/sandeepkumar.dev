@@ -23,23 +23,23 @@ export function CodingSlider() {
         value={position}
         onChange={(event) => setPosition(Number(event.target.value))}
         aria-valuetext={current}
-        className="h-6 w-full cursor-pointer accent-zinc-800"
+        className="h-6 w-full cursor-pointer accent-foreground"
       />
-      <div className="grid grid-cols-3 gap-3 text-xs leading-5 text-zinc-500 sm:gap-6 sm:text-sm">
+      <div className="grid grid-cols-3 gap-3 text-xs leading-5 text-muted-foreground sm:gap-6 sm:text-sm">
         <div>
-          <p className="text-zinc-800">Writing code by hand</p>
+          <p className="text-foreground">Writing code by hand</p>
           <p>Neovim</p>
         </div>
         <div className="text-center">
-          <p className="text-zinc-800">Cursor · Codex</p>
+          <p className="text-foreground">Cursor · Codex</p>
           <p>Claude Code</p>
         </div>
         <div className="text-right">
-          <p className="text-zinc-800">Agent orchestrators</p>
+          <p className="text-foreground">Agent orchestrators</p>
           <p>Software factories</p>
         </div>
       </div>
-      <output htmlFor={id} className="text-center text-sm text-zinc-600">
+      <output htmlFor={id} className="text-center text-sm text-muted-foreground">
         {current}
       </output>
     </section>

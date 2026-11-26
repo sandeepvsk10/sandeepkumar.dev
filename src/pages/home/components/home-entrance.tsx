@@ -57,9 +57,10 @@ export function HomeEntrance({ children }: { children: ReactNode }) {
   }, [finished]);
 
   if (finished) return children;
+  const dark = document.documentElement.classList.contains("dark");
 
   return (
-    <div className="home-entrance fixed inset-0 z-50 grid place-items-center bg-white" data-phase={phase} aria-label="Loading homepage">
+    <div className="home-entrance fixed inset-0 z-50 grid place-items-center bg-background" data-phase={phase} aria-label="Loading homepage">
       <EntranceBoundary onError={reveal}>
       <Suspense fallback={null}>
         <LiquidGlassLogo
@@ -67,12 +68,12 @@ export function HomeEntrance({ children }: { children: ReactNode }) {
           mark=""
           text=""
           ending="logo"
-          theme="light"
-          tileColor="#fefeff"
+          theme={dark ? "dark" : "light"}
+          tileColor={dark ? "#17171b" : "#fefeff"}
           depth={2.9}
           dispersion={0.65}
-          background="#ffffff"
-          logoColor="#000000"
+          background={dark ? "#090909" : "#ffffff"}
+          logoColor={dark ? "#ffffff" : "#000000"}
           finalLogoScale={1}
           loop={false}
           style={{ height: 480 }}

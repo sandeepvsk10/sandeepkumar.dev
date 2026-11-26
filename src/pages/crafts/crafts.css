@@ -1,0 +1,59 @@
+/* Paint the document behind the canvas during viewport changes and rubber-band scrolling. */
+html:has(.crafts-canvas),
+body:has(.crafts-canvas) {
+  background-color: #064b7c;
+  overscroll-behavior-y: none;
+}
+
+#root:has(> .crafts-canvas) {
+  min-height: 100dvh;
+}
+
+.crafts-canvas {
+  --drafting-inset: clamp(0.75rem, 4.5vw, 4rem);
+  --drafting-step: clamp(0.625rem, 1.6vw, 1rem);
+  --drafting-major-step: calc(5 * var(--drafting-step));
+  --drafting-arc: clamp(7rem, 18vw, 19rem);
+  --drafting-guide: rgb(175 224 255 / 17%);
+
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+  background:
+    radial-gradient(ellipse at 69% 43%, #0078b9 0%, transparent 49%),
+    linear-gradient(111deg, #075786 0%, #064b7c 48%, #032840 87%, #031d31 100%);
+}
+
+.crafts-canvas::before,
+.crafts-canvas::after {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+
+.crafts-canvas::before {
+  inset: 0 var(--drafting-inset) 2rem;
+  border: 1px solid rgb(186 226 253 / 28%);
+  border-top: 0;
+  background-image:
+    repeating-radial-gradient(circle at left bottom, transparent 0 calc(var(--drafting-arc) - 1px), var(--drafting-guide) calc(var(--drafting-arc) - 1px) var(--drafting-arc)),
+    repeating-conic-gradient(from 0deg at left bottom, transparent 0deg 14.8deg, var(--drafting-guide) 14.8deg 15deg),
+    linear-gradient(to right, rgb(207 235 255 / 32%) 1px, transparent 1px),
+    linear-gradient(to top, rgb(207 235 255 / 32%) 1px, transparent 1px),
+    linear-gradient(to right, rgb(160 216 253 / 12%) 1px, transparent 1px),
+    linear-gradient(to top, rgb(160 216 253 / 12%) 1px, transparent 1px);
+  background-size:
+    auto, auto,
+    var(--drafting-major-step) 100%, 100% var(--drafting-major-step),
+    var(--drafting-step) 100%, 100% var(--drafting-step);
+  background-position: left bottom;
+}
+
+.crafts-canvas::after {
+  inset: auto var(--drafting-inset) calc(2rem - 8px);
+  height: 8px;
+  background:
+    repeating-linear-gradient(to right, rgb(186 226 253 / 38%) 0 1px, transparent 1px var(--drafting-major-step)),
+    repeating-linear-gradient(to right, rgb(186 226 253 / 20%) 0 1px, transparent 1px var(--drafting-step)) left top / 100% 4px no-repeat;
+}

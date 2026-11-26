@@ -19,12 +19,12 @@ export default function RexPostPage() {
         />
         </BlogPostMedia>
         <div className="flex items-center gap-2">
-          <p className="text-base font-normal leading-6 text-zinc-500">
+          <p className="text-base font-normal leading-6 text-muted-foreground">
             First impression, multiplexer for the Agentic Era
           </p>
           <ClaudeMascot />
         </div>
-        <footer className="flex flex-col gap-3 pt-6 text-xs leading-relaxed text-zinc-500">
+        <footer className="flex flex-col gap-3 pt-6 text-xs leading-relaxed text-muted-foreground">
           <p>
           Rex, Superlogical, and their logos are trademarks of their respective
           owners. This independent blog shares my personal experience with the

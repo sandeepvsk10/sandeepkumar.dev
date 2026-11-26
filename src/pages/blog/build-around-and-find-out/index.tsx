@@ -12,7 +12,7 @@ export default function BuildAroundPost() {
       title="Build around and find out"
       icon={<img src={darkActivity} alt="" width={62} height={28} className="h-7 w-[62px] shrink-0" />}
     >
-        <p className="text-base leading-7 text-zinc-600">
+        <p className="text-base leading-7 text-muted-foreground">
           Finding your footing in software development while the tools, the
           advice, and the way we write code keep changing. Read more code. Write
           less code. Let an agent do it. Where do you find your ground?
