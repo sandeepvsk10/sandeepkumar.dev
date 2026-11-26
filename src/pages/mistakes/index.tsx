@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { EntryWaves } from "./components/entry-waves";
+import { EntryWaves } from "@/components/entry-waves";
+
 import "./entry-grid.css";
 
 const entries = [

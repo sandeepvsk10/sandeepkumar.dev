@@ -1,10 +1,19 @@
-const ribbon = Array.from({ length: 28 }, (_, index) => {
-  const t = index / 27;
+import type { CSSProperties } from "react";
+
+/** The ribbon's lines spread across the same band; fewer lines leave wider gaps between them. */
+const ribbonPaths = (count: number) => Array.from({ length: count }, (_, index) => {
+  const t = index / (count - 1);
   return `M -22 ${85 + 45 * t}
     C ${100 + 28 * t} ${29 - 28 * t}, ${147 + 31 * t} ${-9 + 36 * t}, ${167 + 10 * t} ${39 + 9 * t}
     C ${175 + 94 * t} ${99 + 23 * t}, ${111 + 120 * t} ${228 - 3 * t}, ${232 + 76 * t} ${184 - 14 * t}
     C ${302 - 8 * t} ${159 + 73 * t}, ${344 + 33 * t} ${119 + 99 * t}, 422 ${160 + 32 * t}`;
 });
+
+const ribbons = new Map<number, string[]>();
+const ribbon = (count: number) => {
+  if (!ribbons.has(count)) ribbons.set(count, ribbonPaths(count));
+  return ribbons.get(count)!;
+};
 
 const fan = Array.from({ length: 22 }, (_, index) => {
   const t = index / 21;
@@ -20,12 +29,28 @@ const crossing = Array.from({ length: 16 }, (_, index) => {
     S ${221 + 24 * t} ${218 - 6 * t}, 424 ${112 + 93 * t}`;
 });
 
-export function EntryWaves({ variant }: { variant: "ribbon" | "fan" }) {
-  const paths = variant === "ribbon" ? ribbon : fan;
+/**
+ * Fine flowing line patterns used as card backgrounds (Mistakes cards, home masonry tiles). Lines keep a
+ * hairline width at any card size (non-scaling strokes) and take their colour from `currentColor`.
+ */
+export function EntryWaves({
+  variant,
+  className = "mistakes-entry-waves",
+  style,
+  ribbonLines = 28,
+}: {
+  variant: "ribbon" | "fan";
+  className?: string;
+  style?: CSSProperties;
+  /** How many lines the ribbon has; lower values space them further apart. */
+  ribbonLines?: number;
+}) {
+  const paths = variant === "ribbon" ? ribbon(ribbonLines) : fan;
 
   return (
     <svg
-      className="mistakes-entry-waves"
+      className={className}
+      style={style}
       viewBox="0 0 400 220"
       preserveAspectRatio="none"
       fill="none"

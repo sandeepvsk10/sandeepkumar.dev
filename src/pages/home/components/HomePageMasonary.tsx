@@ -4,6 +4,7 @@ import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { ClaudeMascot } from "@/components/claude-mascot";
+import { EntryWaves } from "@/components/entry-waves";
 import { Masonry, MasonryItem } from "@/components/core/masonry";
 import { TextScramble } from "@/components/core/text-scramble";
 import { BLOG_POSTS } from "@/lib/blog-posts";
@@ -23,6 +24,21 @@ interface PortfolioTile extends MasonryItem {
   images?: string[];
   /** Show the looping Claude mascot animations in the tile. */
   mascot?: boolean;
+  /** Mistakes-style gradient and fine wave lines, for tiles without a picture. */
+  pattern?: TilePattern;
+}
+
+interface TilePattern {
+  background: string;
+  /** Colour of the wave lines. */
+  ink: string;
+  waves: "ribbon" | "fan";
+  /** Ribbon line count; fewer than the default 28 widens the gaps. */
+  lines?: number;
+  /** Where the lines fade out, so they read as texture rather than a fill. */
+  mask: string;
+  /** Mirror or turn the lines so neighbouring tiles don't repeat the same flow. */
+  transform?: string;
 }
 
 const portfolioItems: PortfolioTile[] = [
@@ -43,6 +59,13 @@ const portfolioItems: PortfolioTile[] = [
     url: "#",
     height: 550,
     mascot: true,
+    pattern: {
+      background: "radial-gradient(ellipse at 90% 0%, #fde58f, transparent 70%), linear-gradient(160deg, #fdf3cf, #fae7a8)",
+      ink: "#8a5a12",
+      waves: "ribbon",
+      lines: 20,
+      mask: "linear-gradient(to bottom, #000 14%, #0009 52%, transparent 91%)",
+    },
   },
   {
     id: "open-source",
@@ -51,6 +74,13 @@ const portfolioItems: PortfolioTile[] = [
     loader: "ripple-echo",
     url: "/open-source",
     height: 550,
+    pattern: {
+      background: "radial-gradient(ellipse at 14% 82%, #d4c2f2b0, transparent 50%), linear-gradient(120deg, #f3eefb, #e2d6f6)",
+      ink: "#5b3f8f",
+      waves: "fan",
+      mask: "radial-gradient(ellipse 53% 38% at center, #0001, #0003 55%, #000 100%)",
+      transform: "scale(-1, 1)",
+    },
   },
   {
     id: "blog",
@@ -59,6 +89,14 @@ const portfolioItems: PortfolioTile[] = [
     loader: "path-row",
     url: "/blog",
     height: 550,
+    pattern: {
+      background: "radial-gradient(ellipse at 100% 60%, #f4a9b78f, transparent 68%), linear-gradient(115deg, #fdf0f2, #f9dbe1)",
+      ink: "#8f3b4c",
+      waves: "ribbon",
+      lines: 20,
+      mask: "linear-gradient(to right, transparent 9%, #0003 39%, #000 78%)",
+      transform: "scale(-1, 1)",
+    },
   },
   {
     id: "mistakes",
@@ -89,8 +127,23 @@ function PortfolioTileContent({ item, width }: { item: PortfolioTile; width: num
     >
       <div
         aria-hidden
-        className={`absolute inset-0 rounded-2xl ${item.bg} opacity-80 transition-opacity group-hover:opacity-100`}
+        className={`absolute inset-0 rounded-2xl ${item.pattern ? "" : item.bg} opacity-80 transition-opacity group-hover:opacity-100`}
+        style={item.pattern ? { background: item.pattern.background } : undefined}
       />
+      {item.pattern && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+          style={{ color: item.pattern.ink }}
+        >
+          <EntryWaves
+            variant={item.pattern.waves}
+            ribbonLines={item.pattern.lines}
+            className="absolute inset-0 size-full opacity-[0.36]"
+            style={{ maskImage: item.pattern.mask, transform: item.pattern.transform }}
+          />
+        </div>
+      )}
       {item.images && <TileImageSlideshow images={item.images} />}
       {item.mascot && (
         <div

@@ -34,7 +34,7 @@ export function HomeHeader() {
           onPointerLeave={() => setIntroHovered(false)}
         >
           <p className="text-base font-normal tracking-tight text-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:fill-mode-both motion-safe:duration-500 motion-safe:delay-250 sm:text-lg">
-            Sandeep
+            sandeep
           </p>
           <p className="text-[length:clamp(0.8125rem,3.6vw,0.875rem)] leading-normal sm:text-[0.9375rem] text-pretty text-foreground/78 motion-safe:animate-in motion-safe:fade-in motion-safe:fill-mode-both motion-safe:duration-500 motion-safe:delay-400 sm:leading-relaxed">
             <EngineerAsm key={String(introHovered)} active={introHovered}>Software Engineer</EngineerAsm>, <DatabasesPlatter>Databases</DatabasesPlatter> &amp; dabbling <DesignMarker>Design</DesignMarker> on the side!
