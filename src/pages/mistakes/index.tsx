@@ -4,12 +4,12 @@ import { EntryWaves } from "./components/entry-waves";
 import "./entry-grid.css";
 
 const entries = [
-  { id: "A", title: "Focussed on multiple thing", wave: "ribbon" },
-  { id: "B", title: "Never Gave Mind Rest", wave: "fan" },
-  { id: "C", title: "Didnt ask for help", wave: "ribbon" },
-  { id: "D", title: "Wanting to be perfect", wave: "fan" },
+  { id: "A", title: "Focused on too many things", wave: "ribbon" },
+  { id: "B", title: "Never gave my mind a rest", wave: "fan" },
+  { id: "C", title: "Didn’t ask for help", wave: "ribbon" },
+  { id: "D", title: "Wanted to be perfect", wave: "fan" },
   { id: "E", title: "Ran away from problems", wave: "fan" },
-  { id: "F", title: "Ignored Burnouts", wave: "ribbon" },
+  { id: "F", title: "Ignored burnout", wave: "ribbon" },
 ] as const;
 
 type EntryId = (typeof entries)[number]["id"];
